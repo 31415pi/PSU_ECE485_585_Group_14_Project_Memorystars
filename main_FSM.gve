@@ -1,0 +1,33 @@
+//fsm for ECE585 Final Project -Parser Module
+// S0: WAIT
+// S1: READ
+// S2: PUSH
+// S3: POP
+// S4: SEND TO MEM CNTRLR
+// ABC      TIMING                    |EVENT|QUEUE SIZE
+// 000 TIME NOW = TIME FOR NEXT EVENT | POP | 0,1
+// 001 TIME NOW = TIME FOR NEXT EVENT | POP | 2
+// 010 TIME NOW = TIME FOR NEXT EVENT | SEND | 0,1      
+// 011 TIME NOW = TIME FOR NEXT EVENT | SEND | 2
+// 100 TIME NOW < TIME FOR NEXT EVENT | WAIT | 0,1 
+// 101 TIME NOW < TIME FOR NEXT EVENT | WAIT | 2
+// 110 TIME NOW < TIME FOR NEXT EVENT | READ/PUSH | 0,1
+// 111 TIME NOW < TIME FOR NEXT EVENT | READ/PUSH | 2
+digraph finite_state_machine {
+	rankdir=LR;
+	size="8,5"
+
+S0 -> S1 [label = "110"];
+S0 -> S3 [label = "00X"];
+
+S1 -> S2 [label = "110"];
+
+S2 -> S0 [label = "1X1"];
+S2 -> S1 [label = "AX0"];
+S2 -> S3 [label = "0XX"];
+
+S3 -> S4 [label = "01X"];
+
+S4 -> S1 [label = "110"];
+S4 -> S0 [label = "101"];
+}
