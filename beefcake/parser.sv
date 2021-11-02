@@ -37,8 +37,8 @@ module parser						//Parameters can be changed per module
     parameter MEMOP_WIDTH =			 4,	//Width of mem op code of TF in
     parameter TF_MEMOP_TIME_WIDTH =	 8,	//Width of timestamp of TF in
     parameter TAG_WIDTH =			 8	//Width of tag/parser timecode/info
-//    parameter IN_BUFF_SIZE =		 64,//Width of MC buffer entry
-//    parameter IN_BUFF_CT =			 16//Depth of MC buffer (how many positions in buffer)
+    //    parameter IN_BUFF_SIZE =		 64,//Width of MC buffer entry
+    //    parameter IN_BUFF_CT =			 16//Depth of MC buffer (how many positions in buffer)
     //   parameter PARSER_DEPTH =		 8//DEPTH OF PARSERS BUFFER
   );
   //  (
@@ -46,9 +46,9 @@ module parser						//Parameters can be changed per module
   //  );
   `timescale 1fs/1fs
   //tracefile stored into parser buffer
-//  bit  	[TF_MEMOP_TIME_WIDTH-1:0]	CUR_CNT ;	//Count from INPT first line
+  //  bit  	[TF_MEMOP_TIME_WIDTH-1:0]	CUR_CNT ;	//Count from INPT first line
   bit 	[ADDR_WIDTH-1:0] 			TARGET_ADDY;
- //Target addy for memop
+  //Target addy for memop
   bit 	[MEMOP_WIDTH-1:0] 			MEMOP_CMD;			//Memop command
   bit 	[TF_MEMOP_TIME_WIDTH-1:0] 	MEMOP_TIME;	//Time to perform memop(cycles)  
   bit 	[TAG_WIDTH-1:0]				TAG;						//parser tag, stripped in mc	
@@ -66,7 +66,7 @@ module parser						//Parameters can be changed per module
 
   //COUNTER
   reg [31:0]CYCLE = 1;
- 
+
   enum									//state machine positionals
   {
     donothing = 	0,
@@ -84,7 +84,7 @@ module parser						//Parameters can be changed per module
   }state_t;
 
   state_t cs, ns;						//create state trackers
-  
+
   //FSM vars
   bit A = 1;	//timing
   bit B = 0;	//action
@@ -99,16 +99,16 @@ module parser						//Parameters can be changed per module
     .clock ( clk )
   );
 
-	//optional dev output turn on by defining SHOW_READ or SHOW_ALL
-	`ifdef SHOW_READ
-		$monitor($time, " CYCLE: %h CS: %d NS: %d A: %b B: %b C: %b", CYCLE, cs, ns, A, B, C);
-		$monitor($time, " TAG: %d: READ INPUT: %d %d 0x%X",TAG, MEMOP_TIME, MEMOP_CMD, TARGET_ADDY);
-		$monitor($time, " INSTRUCTION[0]: %X", INSTR[0]);
-		$monitor($time, " TARGET ADDY[0]: %x", INSTR[0][(ADDR_WIDTH)-1:0]);	
-		$monitor($time, " MEM OP     [0]: %d", INSTR[0][(ADDR_WIDTH + MEMOP_WIDTH)-1:(ADDR_WIDTH)]);	
-		$monitor($time, " CYCLE TIME [0]: %d", INSTR[0][(ADDR_WIDTH + MEMOP_WIDTH + TF_MEMOP_TIME_WIDTH)-1:(ADDR_WIDTH + MEMOP_WIDTH)]);
-		$monitor($time, " TAG        [0]: %d", INSTR[0][(ADDR_WIDTH + MEMOP_WIDTH + TF_MEMOP_TIME_WIDTH + TAG_WIDTH)-1:(ADDR_WIDTH + MEMOP_WIDTH  + TF_MEMOP_TIME_WIDTH)]);
-	`endif
+  //optional dev output turn on by defining SHOW_READ or SHOW_ALL
+  `ifdef SHOW_READ
+  $monitor($time, " CYCLE: %h CS: %d NS: %d A: %b B: %b C: %b", CYCLE, cs, ns, A, B, C);
+  $monitor($time, " TAG: %d: READ INPUT: %d %d 0x%X",TAG, MEMOP_TIME, MEMOP_CMD, TARGET_ADDY);
+  $monitor($time, " INSTRUCTION[0]: %X", INSTR[0]);
+  $monitor($time, " TARGET ADDY[0]: %x", INSTR[0][(ADDR_WIDTH)-1:0]);	
+  $monitor($time, " MEM OP     [0]: %d", INSTR[0][(ADDR_WIDTH + MEMOP_WIDTH)-1:(ADDR_WIDTH)]);	
+  $monitor($time, " CYCLE TIME [0]: %d", INSTR[0][(ADDR_WIDTH + MEMOP_WIDTH + TF_MEMOP_TIME_WIDTH)-1:(ADDR_WIDTH + MEMOP_WIDTH)]);
+  $monitor($time, " TAG        [0]: %d", INSTR[0][(ADDR_WIDTH + MEMOP_WIDTH + TF_MEMOP_TIME_WIDTH + TAG_WIDTH)-1:(ADDR_WIDTH + MEMOP_WIDTH  + TF_MEMOP_TIME_WIDTH)]);
+  `endif
 
   initial 
     begin				     			//grab INFILE & open TRACEFILE	  	
@@ -141,83 +141,81 @@ module parser						//Parameters can be changed per module
     CYCLE = CYCLE + 1;					//increment cycle counter
     unique case(1'b1)
       cs[0]:	begin 								//
-					ns = ({ABC} == 110) ? s1 : 
-						 ({ABC} == 00X) ? s3 : s0;
-				end					
+        ns = ({ABC} == 110) ? s1 : 
+        ({ABC} == 00X) ? s3 : s0;
+      end					
       cs[1]:	begin
-					ns = ({ABC} == 110) ? s2 : s1;   //read a line
-				end
-	  cs[2]:	begin
-					ns = ({ABC} == 1X1) ? s0 :
-					ns = ({ABC} == AX0) ? s1 :
-					ns = ({ABC} == 0XX) ? s3 : s2;
-				end
-	  cs[3]:	begin
-					ns = ({ABC} == 01X) ? s4 :
-					ns = ({ABC} == 110) ? s3;
-				end
-	  cs[4]:	begin
-					ns = ({ABC} == 110) ? s1 :
-					ns = ({ABC} == 101) ? s0 : s4;
-				end
+        ns = ({ABC} == 110) ? s2 : s1;   //read a line
+      end
+      cs[2]:	begin
+        ns = ({ABC} == 1X1) ? s0 :
+        ns = ({ABC} == AX0) ? s1 :
+        ns = ({ABC} == 0XX) ? s3 : s2;
+      end
+      cs[3]:	begin
+        ns = ({ABC} == 01X) ? s4 :
+        ns = ({ABC} == 110) ? s3;
+      end
+      cs[4]:	begin
+        ns = ({ABC} == 110) ? s1 :
+        ns = ({ABC} == 101) ? s0 : s4;
+      end
     endcase // end case block 
   end	: nxt_st//end posed clk blk
 
   always_comb : fileop//current state block for file data ops
-	unique case(1'b1)
-	  cs[0]:	begin 
-					B = (C == 0) ? 1 : 0;
-					B = (A == 0) ? 0 : 1;
-				end	//nop
-  	  cs[1]:	begin		//read a line
-				   if( $fscanf (fd_r, "%d %d %X", MEMOP_TIME, MEMOP_CMD, TARGET_ADDY ) ==3) // CREATE A COUNTER FOR LINES READ**
-					  begin
-					  end						//finish readline from tracefile
-				   else // error or empty line
-					  begin
-					    B = 1;
-						C = 0;
-					  end // end error on read line 
-				end // end cur state 1
-	  cs[2]:	begin		//push to stack
-					TEMP = {MEMOP_TIME-CYCLE,MEMOP_TIME,MEMOP_CMD,TARGET_ADDY};	//GENERATE INSTRUCTION AND STORE
-					INSTR.push_front(TEMP);	 
-				end		// finish push to stack
-	  cs[3]:	begin //pop from stack to temp var
-					temp = INSTR.pop_front();
-					B = 1;
-				end
-	  cs[4]:	begin
-					//placeholder for send to mc**
-					B = (C == 0) ? 1 : 0;
+    unique case(1'b1)
+      cs[0]:	begin 
+        B = (C == 0) ? 1 : 0;
+        B = (A == 0) ? 0 : 1;
+      end	//nop
+      cs[1]:	begin		//read a line
+        if( $fscanf (fd_r, "%d %d %X", MEMOP_TIME, MEMOP_CMD, TARGET_ADDY ) ==3) // CREATE A COUNTER FOR LINES READ**
+          begin
+          end						//finish readline from tracefile
+        else // error or empty line
+          begin
+            B = 1;
+            C = 0;
+          end // end error on read line 
+      end // end cur state 1
+      cs[2]:	begin		//push to stack
+        TEMP = {MEMOP_TIME-CYCLE,MEMOP_TIME,MEMOP_CMD,TARGET_ADDY};	//GENERATE INSTRUCTION AND STORE
+        INSTR.push_front(TEMP);	 
+      end		// finish push to stack
+      cs[3]:	begin //pop from stack to temp var
+        temp = INSTR.pop_front();
+        B = 1;
+      end
+      cs[4]:	begin
+        //placeholder for send to mc**
+        B = (C == 0) ? 1 : 0;
 
-				end
-				endcase 
-	 endcase //end always block
+      end
+    endcase 
+  endcase //end always block
   end : fileop // end current state block for file data ops
-//  always_comb begin : 
+  //  always_comb begin : 
 
- always_comb : 
+  always_comb : 
 
- always_comb : unique_count// FSM block for queue unique timestamp counting [C]
-	case(INSTR.size())
-		0:		begin
-					C = 0;	
-				end //queue unique time for memop = 0, 1
-		1:		begin
-					C = 0;
-				end //queue unique time for memop = 2
-		default:begin
-					repeat(INSTR.size()-1)
-						begin
-							A = (INSTR[D][(ADDR_WIDTH + MEMOP_WIDTH + TF_MEMOP_TIME_WIDTH)-1:(ADDR_WIDTH + MEMOP_WIDTH)] <  CYCLE) ? 1 : 0;
-							C = (INSTR[D][(ADDR_WIDTH + MEMOP_WIDTH + TF_MEMOP_TIME_WIDTH)-1:(ADDR_WIDTH + MEMOP_WIDTH)] == INSTR[D+1][(ADDR_WIDTH + MEMOP_WIDTH + TF_MEMOP_TIME_WIDTH)-1:(ADDR_WIDTH + MEMOP_WIDTH)]) ? 0 : 1; 
-							D = D + 1;
-						end // end repeat block
-					D = 0; // reset counter to zero
-	endcase
- end unique_count// end FSM blk for queue count
+    always_comb : unique_count// FSM block for queue unique timestamp counting [C]
+      case(INSTR.size())
+        0:		begin
+          C = 0;	
+        end //queue unique time for memop = 0, 1
+        1:		begin
+          C = 0;
+        end //queue unique time for memop = 2
+        default:begin
+          repeat(INSTR.size()-1)
+            begin
+              A = (INSTR[D][(ADDR_WIDTH + MEMOP_WIDTH + TF_MEMOP_TIME_WIDTH)-1:(ADDR_WIDTH + MEMOP_WIDTH)] <  CYCLE) ? 1 : 0;
+              C = (INSTR[D][(ADDR_WIDTH + MEMOP_WIDTH + TF_MEMOP_TIME_WIDTH)-1:(ADDR_WIDTH + MEMOP_WIDTH)] == INSTR[D+1][(ADDR_WIDTH + MEMOP_WIDTH + TF_MEMOP_TIME_WIDTH)-1:(ADDR_WIDTH + MEMOP_WIDTH)]) ? 0 : 1; 
+              D = D + 1;
+            end // end repeat block
+          D = 0; // reset counter to zero
+          endcase
+        end unique_count// end FSM blk for queue count
 
-endmodule :parser
-
-INSTR[0][(ADDR_WIDTH + MEMOP_WIDTH + TF_MEMOP_TIME_WIDTH)-1:(ADDR_WIDTH + MEMOP_WIDTH)]
+        endmodule :parser
