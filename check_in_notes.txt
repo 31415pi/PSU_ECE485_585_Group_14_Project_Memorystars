@@ -1,0 +1,28 @@
+Relaxed Consistency:
+	Free to do things out of order...
+	Reorder read s and reads and writes.
+	
+Something in queue, advance something by 1 clock tick at a time.
+Nothing in queue - dont do it 1 at a time. 
+Switch index to next thing in file...
+
+only handle 1 request at a time...
+super relaxed: only inserting 1 item per clock tick...
+cur time == 100 ?
+  is there something in file to happen, y / n --> read it and put in queue. 
+  IS read entry >= simulated time / buffer not full... 
+
+Parser / not intelligent. 
+15/20 entries in while loop:
+	current global simulation
+	time of next event in file
+	(error) previous event in file?
+*SIMPLE* WHILE not done 0- what to do...  - main loop 
+if its put in buffer then read the next one.
+if not then deal with it and then move on.
+
+
+next checkin is 2 weeks from last date...
+
+quit when EOF & queue is empty. 
+
