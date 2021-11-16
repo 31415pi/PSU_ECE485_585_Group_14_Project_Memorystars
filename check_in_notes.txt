@@ -133,3 +133,16 @@ if not then deal with it and then move on.
 quit when EOF & queue is empty. 
 
 next checkin is 2 weeks from last date...
+
+
+11.16.2021 lecture
+```bank bankgroup row column <> address
+<debug mode> in queue/buffer store decomposed
+<x column, *this is for mem address whch happened in this cycle*>
+<debug OG arrival time of rq><counter of age in queue>
+
+<no need to refresh>
+<asynchronous> back end && accept new cpu request
+<4 CORE REMINDER> serialize or 4width
+<adjust bufffer[0] to repeat 4, buffer[n] to check for next non buffer[0] mem rq>
+```
