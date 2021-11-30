@@ -1,3 +1,7 @@
+# PARSER MODULE
+
+
+
 # ECE485 DRAM Scheduling Algorithm
 Team members: Madison Klementyn, Jana Alhuneidi, Julia Bogdan Filipchuk, Bradley Chase
 

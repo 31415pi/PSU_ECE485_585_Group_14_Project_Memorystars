@@ -1,0 +1,148 @@
+//REMEMBER
+Must pre-charge bit lines before reading another row
+Cannot use auto-precharge
+
+//ONCE SIMPLE QUEUE IS FUNCTIONAL THINK ABOUT:
+Interleaving (4-way)
+Multiple bit (xN) word accesses N arrays in parallel (can share row and column decoders)
+L2 Cache 256KB, 3-10ns
+
+[[[PROTOCODE]]]
+[[PARSER]]
+//open file
+//<WHILE> MC REQUESTING
+//<DO> fscanf -> SEND
+//	<IF> FSCANF == 0
+//	<THEN> EOF OR ERROR - SIGNAL END
+//<ELSE>WAIT FOR MC REQUEST
+
+[[MEMORY CONTROLLER]]
+//<WHILE> CURRENT TIME == QUEUE ENTRY TIME
+//<DO>RUN ENTRY
+//<ELSE>
+//	<WHILE> QUEUE == NOT FULL
+//		<DO>REQUEST LINE FROM PARSER
+//			PUT LINE INTO QUEUE
+//	<ELSE>JUMP TO NEXT QUEUE ENTRY TIME
+
+
+[[MACROS]] / [[COMMANDS]]
+//	CREATE COUNTDOWN TIMER/COUNTERS
+ACT - opens row(page) tx contents of row to buffer
+	- address pins specify bank and row address.
+	
+PRE - writes row buffer back to memory array, pre-charges bit lines
+
+RD  - [no act] read column in open row
+	- address pins specify bank column address
+
+WR  - [no act] write column in open row
+	- address pins specify bank column address
+
+REF - self contained refresh
+
+
+[[PIN ASSIGNMENTS]]
+ADDRESS LINES		33
+DATA OUT			64 	<<DEDICATED DATA LINES VS BIDIRECTIONAL>>
+DATA IN				64 	<<REMOVES TURNAROUND TIME FOR BI-D PINS>>
+CS					1 	ACTIVE LOW - ENABLES DEVICE (CHIP)
+WE					1 	ACTIVE LOW - CONTROLS READ VS WRITES
+OE					1	OLD ENGLISH - POUR ONE OUT FOR THE HOMIES
+RAS					1	ACTIVE LOW - LATCHES ROW ADDY & READS ROW INTO S.AMPS
+CAS					1	ACTIVE LOW - LATCHES COLUMN ADDY & SELECTS COLMN
+
+[[PARAMETER TIMINGS]]
+tRC					76
+tRAS				52
+tRRD_L				6
+tRRD_S				4
+tRP					24
+tRFC				350ns
+CWL(tCWD)			20
+tCAS(CL)			24
+tRCD				24
+tWR					20
+tRTP				12
+tCCD_L				8
+tCCD_S				4
+tBURST				4
+tWTR_L				12
+tWTR_S				4
+REFI				7.8us
+
+[[CYCLES]]
+READ CYCLE:
+1 PUT ROW ADDRESS
+2*RAS PULLED LOW
+3 OE PULLED LOW - HI.Z DATALINE NOW HAS JUNK
+4 PUT COLUMN ADDRES 
+5 CAS PULLED LOW 
+6 DATA OUT VALID
+
+WRITE CYCLE:
+1 OE HIGH
+1 PUT ROW ADDRESS
+2*RAS PULLED LOW
+3 WE PULLED LOW
+3 DATA IN VALID
+3 PUT COLUMN ADDRESS
+4 CAS PULLED LOW 
+5 CAS-RAS-WE PULLED HIGH 
+6 PUT ROW ADDRESS 
+
+[[COMMAND STRUCTURES]]
+READ COMMAND:
+<ACTIVATE> 	tCK tCH tCL <READ>		<PRECHARGE>				<ACTIVATE>
+			tRCD		  |tRTP		     | tCAS CL =24
+										 |tRP				    |
+
+WRITE COMMAND:
+
+ACTIVATE COMMAND:
+
+PRECHARGE COMMAND:
+
+REFRESH COMMAND:
+
+
+
+[[OFFICE HOUR NOTES]]
+Relaxed Consistency:
+	Free to do things out of order...
+	Reorder read s and reads and writes.
+	
+Something in queue, advance something by 1 clock tick at a time.
+Nothing in queue - dont do it 1 at a time. 
+Switch index to next thing in file...
+
+only handle 1 request at a time...
+super relaxed: only inserting 1 item per clock tick...
+cur time == 100 ?
+  is there something in file to happen, y / n --> read it and put in queue. 
+  IS read entry >= simulated time / buffer not full... 
+
+Parser / not intelligent. 
+15/20 entries in while loop:
+	current global simulation
+	time of next event in file
+	(error) previous event in file?
+*SIMPLE* WHILE not done 0- what to do...  - main loop 
+if its put in buffer then read the next one.
+if not then deal with it and then move on.
+quit when EOF & queue is empty. 
+
+next checkin is 2 weeks from last date...
+
+
+11.16.2021 lecture
+```bank bankgroup row column <> address
+<debug mode> in queue/buffer store decomposed
+<x column, *this is for mem address whch happened in this cycle*>
+<debug OG arrival time of rq><counter of age in queue>
+
+<no need to refresh>
+<asynchronous> back end && accept new cpu request
+<4 CORE REMINDER> serialize or 4width
+<adjust bufffer[0] to repeat 4, buffer[n] to check for next non buffer[0] mem rq>
+```
