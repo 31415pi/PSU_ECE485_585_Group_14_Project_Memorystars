@@ -1,5 +1,5 @@
 # vsim -c dram_cmd_tb 
-# Start time: 20:41:15 on Dec 04,2021
+# Start time: 22:36:16 on Dec 04,2021
 # ** Note: (vsim-3813) Design is being optimized due to module recompilation...
 # //  Questa Sim-64
 # //  Version 2019.2_1 linux_x86_64 May 13 2019
@@ -19,21 +19,52 @@
 # Loading work.dram_defs(fast)
 # Loading work.dram_cmd_tb(fast)
 #                    0 EXECUTING A MISS SIMULATION
-#                   25 IDLE
+#                   25 REQUEST RECEIVED
 #                   49 PRE
 #                   73 ACT
 #                   97 RDWR
 #                  101 DATA
 #                  120 EXECUTING A HIT SIMULATION
-#                  169 RDWR
-#                  173 DATA
-#                  240 EXECUTING AN EMPTY SIMULATION
-#                  289 ACT
-#                  313 RDWR
-#                  317 DATA
-# ** Note: $stop    : dram_cmd_tb.sv(61)
-#    Time: 3600 ns  Iteration: 0  Instance: /dram_cmd_tb
-# Break at dram_cmd_tb.sv line 61
-# Stopped at dram_cmd_tb.sv line 61
-# End time: 20:41:24 on Dec 04,2021, Elapsed time: 0:00:09
+#                  170 RDWR
+#                  174 DATA
+#                  241 EXECUTING AN EMPTY SIMULATION
+#                  290 ACT
+#                  314 RDWR
+#                  318 DATA
+#                  361 EXECUTING AN EMPTY SIMULATION WITH DIFFERENT BANK GROUP & DIFFERENT BANK
+#                  367 RRDS
+#                  371 RRDL
+#                  377 ACT
+#                  401 RDWR
+#                  405 DATA
+#                  482 EXECUTING AN EMPTY SIMULATION WITH DIFFERENT BANK GROUP
+#                  488 RRDS
+#                  492 PRE
+#                  516 ACT
+#                  540 RDWR
+#                  544 DATA
+#                  603 EXECUTING AN EMPTY SIMULATION WITH DIFFERENT BANK
+#                  611 RRDL
+#                  617 ACT
+#                  641 RDWR
+#                  645 DATA
+#                  724 EXECUTING A HIT SIMULATION WITH DIFFERENT BANK GROUP & DIFFERENT BANK
+#                  730 CCDS
+#                  734 CCDL
+#                  742 RDWR
+#                  746 DATA
+#                  845 EXECUTING A HIT SIMULATION WITH DIFFERENT BANK GROUP
+#                  851 CCDS
+#                  855 ACT
+#                  879 RDWR
+#                  883 DATA
+#                  966 EXECUTING A HIT SIMULATION WITH DIFFERENT BANK
+#                  976 CCDL
+#                  984 RDWR
+#                  988 DATA
+# ** Note: $stop    : dram_cmd_tb.sv(131)
+#    Time: 10875 ns  Iteration: 0  Instance: /dram_cmd_tb
+# Break at dram_cmd_tb.sv line 131
+# Stopped at dram_cmd_tb.sv line 131
+# End time: 22:54:04 on Dec 04,2021, Elapsed time: 0:17:48
 # Errors: 0, Warnings: 0

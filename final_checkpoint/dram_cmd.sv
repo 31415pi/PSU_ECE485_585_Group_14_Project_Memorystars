@@ -14,8 +14,12 @@ import dram_defs::*;
 (
 	input logic		clk,
 	input logic[63:0]	counter,
-	output dram_command_steps_t DRAM_STATUS,
-	input dram_policy_t POLICY
+	input logic		different_bg,
+	input logic		different_b,
+	input logic		en,
+	input dram_policy_t POLICY,
+	output dram_command_steps_t DRAM_STATUS
+
 );
 	dram_command_steps_t s, S;
 	dram_command_steps_t previous_step;
@@ -84,26 +88,62 @@ import dram_defs::*;
 	
 	always_comb begin
 		if(step_complete_flag) step_complete = '1;
-		if(previous_policy != NULL) begin if(previous_policy != POLICY) S = IDLE; end
+		if(previous_policy != NULL) begin 
+			if(en) S = IDLE; 
+		end
 		case(s)
 			IDLE:    S = IDLE; 
-			PRE:     if(step_complete) begin $display("%d IDLE", internal_counter); S = ACT;  step_complete = '0; end
+			PRE:     if(step_complete) begin 
+					$display("%d REQUEST RECEIVED", internal_counter); 
+					S = ACT;  
+					step_complete = '0;
+			end
+			RRDS: 	 if(step_complete) begin 
+					$display("%d RRDS", internal_counter); 
+				
+					if(different_b) S = RRDL;
+					else S = ACT;
+					step_complete = '0;
+			end
+			RRDL:	if(step_complete) begin $display("%d RRDL", internal_counter); S = RDWR; step_complete = '0; end
+			CCDS:	if(step_complete) begin
+					$display("%d CCDS", internal_counter);
+					
+					if(different_b) S = CCDL;
+					else S = RDWR;
+					step_complete = '0;
+			end
+			CCDL:	if(step_complete) begin $display("%d CCDL", internal_counter); S = DATA; step_complete = '0; end
 			ACT:     if(step_complete) begin if(previous_step != IDLE) $display("%d PRE", internal_counter); S = RDWR; step_complete = '0; end
-			RDWR:    if(step_complete) begin if(previous_step != IDLE) $display("%d ACT", internal_counter); S = DATA; step_complete = '0; end
+			RDWR:    if(step_complete) begin 
+				if(previous_step != IDLE) $display("%d ACT", internal_counter); 
+					S = DATA; 
+					step_complete = '0; 
+			end
 			DATA:    if(step_complete) begin $display("%d RDWR", internal_counter); S = DONE; step_complete = '0; print_once = 1'b1; end
 			DONE: if(S == DONE) begin if(print_once) begin $display("%d DATA", internal_counter); print_once = 1'b0; end end
 			default: S = IDLE;
 		endcase	
-
+		
+		// This case switch statement
+		// determines how the DRAM command should start
 		case(POLICY)
 			HIT: begin
-				if(s == IDLE)  S <= RDWR;
+				if(s == IDLE) begin
+					if(different_bg) S <= CCDS;
+					else if(different_b) S <= CCDL;
+					else S <= RDWR;
+				end
 			end
 			MISS: begin		
 				if(s == IDLE) S <= PRE;
 			end
 			EMPTY: begin		
-				if(s == IDLE) S <= ACT;
+				if(s == IDLE) begin
+					if(different_bg) S <= RRDS;
+					else if(different_b) S <= RRDL;
+					else S <= ACT;
+				end
 			end
 			default: ;
 		endcase
@@ -116,6 +156,8 @@ import dram_defs::*;
 		case(POLICY)
 			HIT: begin
 				if(S == RDWR) rdwr_event(step_complete_flag); 
+				else if(S == CCDS) rdwr_event_different_bank_group(step_complete_flag);
+				else if(S == CCDL) rdwr_event_different_bank(step_complete_flag);
 				else if(S == DATA) data_event(step_complete_flag);
 				else if(S == DONE) begin stop_events(step_complete_flag); previous_policy = POLICY; end
 			end
@@ -128,6 +170,8 @@ import dram_defs::*;
 			end
 			EMPTY: begin		
 				if(S == ACT) act_event(step_complete_flag);
+				else if(S == RRDS) act_event_different_bank_group(step_complete_flag);
+				else if(S == RRDL) act_event_different_bank(step_complete_flag);
 				else if(S == RDWR) rdwr_event(step_complete_flag); 
 				else if(S == DATA) data_event(step_complete_flag);
 				else if(S == DONE) begin stop_events(step_complete_flag); previous_policy = POLICY; end
