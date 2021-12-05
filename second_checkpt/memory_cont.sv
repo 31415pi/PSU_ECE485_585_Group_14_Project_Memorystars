@@ -6,6 +6,7 @@
 // age of mem entry is + 100 cycles vs simply every 100 cycles
 
 module memory_controller
+    `timescale 1fs/1fs
   #(
     parameter TF_READ_BUFFER_WIDTH = 	64,		//#1 Width of input buffer from TF
     parameter P_OUTPUT_WIDTH =		 	64,		//Width of output from parser->MC

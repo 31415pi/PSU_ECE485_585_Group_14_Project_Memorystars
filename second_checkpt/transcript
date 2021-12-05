@@ -1,0 +1,93 @@
+# vsim -c tb_top 
+# Start time: 08:27:14 on Dec 04,2021
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# ** Warning: testbench.sv(4): (vopt-2685) [TFMPC] - Too few port connections for 'parsing'.  Expected 6, found 0.
+# //  Questa Sim-64
+# //  Version 2019.2_1 linux_x86_64 May 13 2019
+# //
+# //  Copyright 1991-2019 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  QuestaSim and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading sv_std.std
+# Loading work.tb_top(fast)
+#                    0 parser instantiation
+#                    0 Filename not declared
+#                    0  not found...
+# ** Warning: (vsim-3534) [FOFIR] - Failed to open file "" for reading.
+# No such file or directory. (errno = ENOENT)    : design.sv(63)
+#    Time: 0 fs  Iteration: 0  Instance: /tb_top/parsing
+#                    0 Unable to open tracefile.
+# ** Error (suppressible): (vsim-PLI-3084) $fscanf : Argument 1 is not a valid file descriptor.
+#    Time: 1563 fs  Iteration: 1  Process: /tb_top/parsing/#ALWAYS#69 File: design.sv Line: 74
+# ** Error (suppressible): (vsim-PLI-3084) $fscanf : Argument 1 is not a valid file descriptor.
+#    Time: 4689 fs  Iteration: 1  Process: /tb_top/parsing/#ALWAYS#69 File: design.sv Line: 74
+# ** Error (suppressible): (vsim-PLI-3084) $fscanf : Argument 1 is not a valid file descriptor.
+#    Time: 7815 fs  Iteration: 1  Process: /tb_top/parsing/#ALWAYS#69 File: design.sv Line: 74
+# ** Error (suppressible): (vsim-PLI-3084) $fscanf : Argument 1 is not a valid file descriptor.
+#    Time: 10941 fs  Iteration: 1  Process: /tb_top/parsing/#ALWAYS#69 File: design.sv Line: 74
+# ** Error (suppressible): (vsim-PLI-3084) $fscanf : Argument 1 is not a valid file descriptor.
+#    Time: 14067 fs  Iteration: 1  Process: /tb_top/parsing/#ALWAYS#69 File: design.sv Line: 74
+# ** Error (suppressible): (vsim-PLI-3084) $fscanf : Argument 1 is not a valid file descriptor.
+#    Time: 17193 fs  Iteration: 1  Process: /tb_top/parsing/#ALWAYS#69 File: design.sv Line: 74
+# ** Error (suppressible): (vsim-PLI-3084) $fscanf : Argument 1 is not a valid file descriptor.
+#    Time: 20319 fs  Iteration: 1  Process: /tb_top/parsing/#ALWAYS#69 File: design.sv Line: 74
+# ** Error (suppressible): (vsim-PLI-3084) $fscanf : Argument 1 is not a valid file descriptor.
+#    Time: 23445 fs  Iteration: 1  Process: /tb_top/parsing/#ALWAYS#69 File: design.sv Line: 74
+# ** Error (suppressible): (vsim-PLI-3084) $fscanf : Argument 1 is not a valid file descriptor.
+#    Time: 26571 fs  Iteration: 1  Process: /tb_top/parsing/#ALWAYS#69 File: design.sv Line: 74
+# ** Error (suppressible): (vsim-PLI-3084) $fscanf : Argument 1 is not a valid file descriptor.
+#    Time: 29697 fs  Iteration: 1  Process: /tb_top/parsing/#ALWAYS#69 File: design.sv Line: 74
+# ** Error (suppressible): (vsim-PLI-3084) $fscanf : Argument 1 is not a valid file descriptor.
+#    Time: 32823 fs  Iteration: 1  Process: /tb_top/parsing/#ALWAYS#69 File: design.sv Line: 74
+# ** Error (suppressible): (vsim-PLI-3084) $fscanf : Argument 1 is not a valid file descriptor.
+#    Time: 35949 fs  Iteration: 1  Process: /tb_top/parsing/#ALWAYS#69 File: design.sv Line: 74
+# ** Error (suppressible): (vsim-PLI-3084) $fscanf : Argument 1 is not a valid file descriptor.
+#    Time: 39075 fs  Iteration: 1  Process: /tb_top/parsing/#ALWAYS#69 File: design.sv Line: 74
+# ** Error (suppressible): (vsim-PLI-3084) $fscanf : Argument 1 is not a valid file descriptor.
+#    Time: 42201 fs  Iteration: 1  Process: /tb_top/parsing/#ALWAYS#69 File: design.sv Line: 74
+# ** Error (suppressible): (vsim-PLI-3084) $fscanf : Argument 1 is not a valid file descriptor.
+#    Time: 45327 fs  Iteration: 1  Process: /tb_top/parsing/#ALWAYS#69 File: design.sv Line: 74
+# ** Error (suppressible): (vsim-PLI-3084) $fscanf : Argument 1 is not a valid file descriptor.
+#    Time: 48453 fs  Iteration: 1  Process: /tb_top/parsing/#ALWAYS#69 File: design.sv Line: 74
+# ** Error (suppressible): (vsim-PLI-3084) $fscanf : Argument 1 is not a valid file descriptor.
+#    Time: 51579 fs  Iteration: 1  Process: /tb_top/parsing/#ALWAYS#69 File: design.sv Line: 74
+# ** Error (suppressible): (vsim-PLI-3084) $fscanf : Argument 1 is not a valid file descriptor.
+#    Time: 54705 fs  Iteration: 1  Process: /tb_top/parsing/#ALWAYS#69 File: design.sv Line: 74
+# ** Error (suppressible): (vsim-PLI-3084) $fscanf : Argument 1 is not a valid file descriptor.
+#    Time: 57831 fs  Iteration: 1  Process: /tb_top/parsing/#ALWAYS#69 File: design.sv Line: 74
+# ** Error (suppressible): (vsim-PLI-3084) $fscanf : Argument 1 is not a valid file descriptor.
+#    Time: 60957 fs  Iteration: 1  Process: /tb_top/parsing/#ALWAYS#69 File: design.sv Line: 74
+# ** Error (suppressible): (vsim-PLI-3084) $fscanf : Argument 1 is not a valid file descriptor.
+#    Time: 64083 fs  Iteration: 1  Process: /tb_top/parsing/#ALWAYS#69 File: design.sv Line: 74
+# ** Error (suppressible): (vsim-PLI-3084) $fscanf : Argument 1 is not a valid file descriptor.
+#    Time: 67209 fs  Iteration: 1  Process: /tb_top/parsing/#ALWAYS#69 File: design.sv Line: 74
+# ** Error (suppressible): (vsim-PLI-3084) $fscanf : Argument 1 is not a valid file descriptor.
+#    Time: 70335 fs  Iteration: 1  Process: /tb_top/parsing/#ALWAYS#69 File: design.sv Line: 74
+# ** Error (suppressible): (vsim-PLI-3084) $fscanf : Argument 1 is not a valid file descriptor.
+#    Time: 73461 fs  Iteration: 1  Process: /tb_top/parsing/#ALWAYS#69 File: design.sv Line: 74
+# ** Error (suppressible): (vsim-PLI-3084) $fscanf : Argument 1 is not a valid file descriptor.
+#    Time: 76587 fs  Iteration: 1  Process: /tb_top/parsing/#ALWAYS#69 File: design.sv Line: 74
+# ** Error (suppressible): (vsim-PLI-3084) $fscanf : Argument 1 is not a valid file descriptor.
+#    Time: 79713 fs  Iteration: 1  Process: /tb_top/parsing/#ALWAYS#69 File: design.sv Line: 74
+# ** Error (suppressible): (vsim-PLI-3084) $fscanf : Argument 1 is not a valid file descriptor.
+#    Time: 82839 fs  Iteration: 1  Process: /tb_top/parsing/#ALWAYS#69 File: design.sv Line: 74
+# ** Error (suppressible): (vsim-PLI-3084) $fscanf : Argument 1 is not a valid file descriptor.
+#    Time: 85965 fs  Iteration: 1  Process: /tb_top/parsing/#ALWAYS#69 File: design.sv Line: 74
+# ** Error (suppressible): (vsim-PLI-3084) $fscanf : Argument 1 is not a valid file descriptor.
+#    Time: 89091 fs  Iteration: 1  Process: /tb_top/parsing/#ALWAYS#69 File: design.sv Line: 74
+# ** Error (suppressible): (vsim-PLI-3084) $fscanf : Argument 1 is not a valid file descriptor.
+#    Time: 92217 fs  Iteration: 1  Process: /tb_top/parsing/#ALWAYS#69 File: design.sv Line: 74
+# ** Error (suppressible): (vsim-PLI-3084) $fscanf : Argument 1 is not a valid file descriptor.
+#    Time: 95343 fs  Iteration: 1  Process: /tb_top/parsing/#ALWAYS#69 File: design.sv Line: 74
+# ** Error (suppressible): (vsim-PLI-3084) $fscanf : Argument 1 is not a valid file descriptor.
+#    Time: 98469 fs  Iteration: 1  Process: /tb_top/parsing/#ALWAYS#69 File: design.sv Line: 74
+# End time: 08:27:30 on Dec 04,2021, Elapsed time: 0:00:16
+# Errors: 32, Warnings: 2

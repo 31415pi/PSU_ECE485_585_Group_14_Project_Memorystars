@@ -1,0 +1,116 @@
+m255
+K4
+z2
+!s11f vlog 2019.2_1 2019.05, May 13 2019
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 d/u/csb4/ECE585/PSU_ECE485_585_Group_14_Project_Memorystars/second_checkpt
+T_opt
+!s110 1638635235
+VU<?I]PN9@@M_@B_7GL6OY0
+04 6 4 work tb_top fast 0
+=1-525400638048-61ab96e2-d830d-6bef
+o-quiet -auto_acc_if_foreign -work work
+Z1 tCvgOpt 0
+n@_opt
+OL;O;2019.2_1;69
+vcpu_clock
+Z2 DXx6 sv_std 3 std 0 22 9oUSJO;AeEaW`l:M@^WG92
+Z3 !s110 1638635232
+!i10b 1
+!s100 8F0bDMeCBPM7RP5Ok=ji32
+!s11b 88hbLYmCiYP4lhBzTPo@_0
+IjF<^AEFU@MdV;_0nBIV;i0
+Z4 VDg1SIo80bB@j0V0VzS_@n1
+S1
+R0
+Z5 w1638398218
+8cpu_clock.sv
+Fcpu_clock.sv
+L0 12
+Z6 OL;L;2019.2_1;69
+r1
+!s85 0
+31
+Z7 !s108 1638635232.000000
+Z8 !s107 testbench.sv|memory_cont.sv|design.sv|cpu_clock.sv|
+Z9 !s90 cpu_clock.sv|design.sv|memory_cont.sv|testbench.sv|
+!i113 0
+Z10 o-L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
+R1
+vmemory_controller
+R2
+R3
+!i10b 1
+!s100 nU9PKW0kT]obL]_Ohjh:g2
+!s11b ?3i61h3H<z>e@Eb8fJ@jY2
+IhMUX6N6M<C4QAON5<PjG?2
+R4
+S1
+R0
+Z11 w1638635229
+8memory_cont.sv
+Fmemory_cont.sv
+L0 8
+R6
+r1
+!s85 0
+31
+R7
+R8
+R9
+!i113 0
+R10
+R1
+vparser
+R2
+R3
+!i10b 1
+!s100 ?OEbMT?X7LY`aA^DzRo]_1
+!s11b mS8ZA7^B0il[COIo`>Z8P2
+IN9BE]G6cD9bM2c5llb8<D2
+R4
+S1
+R0
+R11
+8design.sv
+Fdesign.sv
+L0 1
+R6
+r1
+!s85 0
+31
+R7
+R8
+R9
+!i113 0
+R10
+R1
+vtb_top
+R2
+R3
+!i10b 1
+!s100 `>iR[a4i4W=G1FNWNEJEL2
+!s11b J`GbG^F[SD0aokkeM>oBN1
+IVd7hL@e2>ZK;B291ocID00
+R4
+S1
+R0
+R5
+8testbench.sv
+Ftestbench.sv
+L0 1
+R6
+r1
+!s85 0
+31
+R7
+R8
+R9
+!i113 0
+R10
+R1

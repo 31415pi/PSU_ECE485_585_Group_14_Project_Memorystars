@@ -1,4 +1,5 @@
 module parser							//Parameters can be changed per module
+    `timescale 1fs/1fs
   #(
     parameter TF_READ_BUFFER_WIDTH = 	64,		//#1 Width of input buffer from TF
     parameter P_OUTPUT_WIDTH =		 	64,		//Width of output from parser->MC
