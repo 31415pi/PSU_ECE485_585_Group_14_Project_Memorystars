@@ -1,0 +1,110 @@
+Reading pref.tcl
+
+# 2019.2_1
+
+# vsim -c tb_top "+infile=t10.trace" -do "run -all; quit" 
+# Start time: 14:55:41 on Dec 06,2021
+# ** Note: (vsim-8009) Loading existing optimized design _opt1
+# //  Questa Sim-64
+# //  Version 2019.2_1 linux_x86_64 May 13 2019
+# //
+# //  Copyright 1991-2019 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  QuestaSim and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading sv_std.std
+# Loading work.dram_defs(fast)
+# Loading work.tb_top(fast)
+# run -all
+#                    0 parser instantiation
+#                    0 Filename declared
+#                    0 Finding file t10.trace
+#                    0 Tracefile opened
+#                     2 ENQUEUE:    0 0 000000000
+#                     4 ENQUEUE:    1 0 000000100
+#                     6 ENQUEUE:    2 0 000000008
+#                     8 ENQUEUE:    3 0 000000010
+#                    10 ENQUEUE:    4 0 000000018
+#                    12 ENQUEUE:    5 0 000000020
+#                    14 ENQUEUE:    6 0 000000028
+#                    16 ENQUEUE:    7 0 000000030
+#                    18 ENQUEUE:    8 0 000000038
+#                    20 ENQUEUE:    9 0 000000040
+#                    22 ENQUEUE:   10 0 000000048
+#                    24 ENQUEUE:   11 0 000000050
+#                    26 ENQUEUE:   12 0 000000058
+#                    28 ENQUEUE:   13 0 000000060
+#                    30 ENQUEUE:   14 0 000000068
+#                    32 ENQUEUE:   15 0 000000070
+#                    34 READ Bank Group 0 Bank 0 Row 0000 Column 000
+#                    36 ENQUEUE:   16 0 000000078
+#                   82 PRE
+#                  106 ACT
+#                  130 RD
+#                  134 DATA
+#                  136 READ Bank Group 0 Bank 0 Row 0000 Column 004
+#                   139 ENQUEUE:   17 0 000000080
+#                  186 RD
+#                  187 DATA
+#                  189 READ Bank Group 0 Bank 0 Row 0000 Column 000
+#                  239 RD
+#                  240 DATA
+#                  240 READ Bank Group 0 Bank 0 Row 0000 Column 000
+#                  290 RD
+#                  291 DATA
+#                  291 READ Bank Group 0 Bank 0 Row 0000 Column 000
+#                  341 RD
+#                  342 DATA
+#                  342 READ Bank Group 0 Bank 0 Row 0000 Column 000
+#                  392 RD
+#                  393 DATA
+#                  393 READ Bank Group 0 Bank 0 Row 0000 Column 000
+#                  443 RD
+#                  444 DATA
+#                  444 READ Bank Group 0 Bank 0 Row 0000 Column 000
+#                  494 RD
+#                  495 DATA
+#                  495 READ Bank Group 0 Bank 0 Row 0000 Column 000
+#                  545 RD
+#                  546 DATA
+#                  546 READ Bank Group 0 Bank 0 Row 0000 Column 001
+#                  596 RD
+#                  597 DATA
+#                  597 READ Bank Group 0 Bank 0 Row 0000 Column 001
+#                  647 RD
+#                  648 DATA
+#                  648 READ Bank Group 0 Bank 0 Row 0000 Column 001
+#                  698 RD
+#                  699 DATA
+#                  699 READ Bank Group 0 Bank 0 Row 0000 Column 001
+#                  749 RD
+#                  750 DATA
+#                  750 READ Bank Group 0 Bank 0 Row 0000 Column 001
+#                  800 RD
+#                  801 DATA
+#                  801 READ Bank Group 0 Bank 0 Row 0000 Column 001
+#                  851 RD
+#                  852 DATA
+#                  852 READ Bank Group 0 Bank 0 Row 0000 Column 001
+#                  902 RD
+#                  903 DATA
+#                  903 READ Bank Group 0 Bank 0 Row 0000 Column 001
+#                  953 RD
+#                  954 DATA
+#                  954 READ Bank Group 0 Bank 0 Row 0000 Column 002
+#                 1004 RD
+#                 1005 DATA
+# ** Note: $stop    : memory_cont.sv(145)
+#    Time: 4861895 fs  Iteration: 0  Instance: /tb_top/parsing/mc
+# Break at memory_cont.sv line 145
+# Stopped at memory_cont.sv line 145
+#  quit
+# End time: 14:55:42 on Dec 06,2021, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0

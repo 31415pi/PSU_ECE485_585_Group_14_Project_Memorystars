@@ -1,0 +1,234 @@
+Reading pref.tcl
+
+# 2019.2_1
+
+# vsim -c tb_top "+infile=t4.trace" -do "run -all; quit" 
+# Start time: 14:44:13 on Dec 06,2021
+# ** Note: (vsim-8009) Loading existing optimized design _opt1
+# //  Questa Sim-64
+# //  Version 2019.2_1 linux_x86_64 May 13 2019
+# //
+# //  Copyright 1991-2019 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  QuestaSim and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading sv_std.std
+# Loading work.dram_defs(fast)
+# Loading work.tb_top(fast)
+# run -all
+#                    0 parser instantiation
+#                    0 Filename declared
+#                    0 Finding file t4.trace
+#                    0 Tracefile opened
+#                     2 ENQUEUE:    0 0 000000000
+#                     4 ENQUEUE:    1 0 000000008
+#                     6 ENQUEUE:    2 0 000000108
+#                     8 ENQUEUE:    3 0 000000010
+#                    10 ENQUEUE: 1000 0 000040000
+#                    12 ENQUEUE: 1001 0 000040040
+#                    14 ENQUEUE: 1002 0 000040040
+#                    16 ENQUEUE: 2000 1 000000000
+#                    18 ENQUEUE: 2001 1 000000008
+#                    20 ENQUEUE: 2002 1 000000108
+#                    22 ENQUEUE: 2003 1 000000010
+#                    24 ENQUEUE: 2004 1 000040000
+#                    26 ENQUEUE: 2005 1 000040040
+#                    28 ENQUEUE: 2006 1 000040040
+#                    30 ENQUEUE: 3000 0 000040cc0
+#                    32 ENQUEUE: 3001 1 000040dc0
+#                  3002 READ Bank Group 0 Bank 0 Row 0000 Column 000
+#                  3004 ENQUEUE: 3002 0 000040ec0
+#                 3050 PRE
+#                 3074 ACT
+#                 3098 RD
+#                 3102 DATA
+#                 3104 READ Bank Group 0 Bank 0 Row 0000 Column 000
+#                  3107 ENQUEUE: 3003 1 000040e80
+#                 3154 RD
+#                 3155 DATA
+#                 3157 READ Bank Group 0 Bank 0 Row 0000 Column 004
+#                  3160 ENQUEUE: 3004 0 000040d80
+#                 3207 RD
+#                 3208 DATA
+#                 3210 READ Bank Group 0 Bank 0 Row 0000 Column 000
+#                 3260 RD
+#                 3261 DATA
+#                 3261 READ Bank Group 0 Bank 0 Row 0002 Column 000
+#                 3288 ACT
+#                 3312 RD
+#                 3316 DATA
+#                 3316 READ Bank Group 0 Bank 0 Row 0002 Column 001
+#                 3366 RD
+#                 3367 DATA
+#                 3367 READ Bank Group 0 Bank 0 Row 0002 Column 001
+#                 3417 RD
+#                 3418 DATA
+#                 3418 WRITE Bank Group 0 Bank 0 Row 0000 Column 000
+#                 3445 ACT
+#                 3469 WR
+#                 3513 DATA
+#                 3513 WRITE Bank Group 0 Bank 0 Row 0000 Column 000
+#                 3563 WR
+#                 3564 DATA
+#                 3564 WRITE Bank Group 0 Bank 0 Row 0000 Column 004
+#                 3614 WR
+#                 3615 DATA
+#                 3615 WRITE Bank Group 0 Bank 0 Row 0000 Column 000
+#                 3665 WR
+#                 3666 DATA
+#                 3666 WRITE Bank Group 0 Bank 0 Row 0002 Column 000
+#                 3693 ACT
+#                 3717 WR
+#                 3761 DATA
+#                 3761 WRITE Bank Group 0 Bank 0 Row 0002 Column 001
+#                 3811 WR
+#                 3812 DATA
+#                 3812 WRITE Bank Group 0 Bank 0 Row 0002 Column 001
+#                 3862 WR
+#                 3863 DATA
+#                 3863 READ Bank Group 0 Bank 0 Row 0002 Column 033
+#                 3913 RD
+#                 3914 DATA
+#                 3914 WRITE Bank Group 0 Bank 0 Row 0002 Column 037
+#                 3964 WR
+#                 3965 DATA
+#                 3965 READ Bank Group 0 Bank 0 Row 0002 Column 03b
+#                 4015 RD
+#                 4016 DATA
+#                 4016 WRITE Bank Group 0 Bank 0 Row 0002 Column 03a
+#                 4066 WR
+#                 4067 DATA
+#                 4067 READ Bank Group 0 Bank 0 Row 0002 Column 036
+#                 4117 RD
+#                 4118 DATA
+# ** Note: $stop    : memory_cont.sv(145)
+#    Time: 14593133 fs  Iteration: 0  Instance: /tb_top/parsing/mc
+# Break at memory_cont.sv line 145
+# Stopped at memory_cont.sv line 145
+#  quit
+# End time: 14:44:13 on Dec 06,2021, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+Reading pref.tcl
+
+# 2019.2_1
+
+# vsim -c tb_top "+infile=t4.trace" -do "run -all; quit" 
+# Start time: 14:52:50 on Dec 06,2021
+# ** Note: (vsim-8009) Loading existing optimized design _opt1
+# //  Questa Sim-64
+# //  Version 2019.2_1 linux_x86_64 May 13 2019
+# //
+# //  Copyright 1991-2019 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  QuestaSim and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading sv_std.std
+# Loading work.dram_defs(fast)
+# Loading work.tb_top(fast)
+# run -all
+#                    0 parser instantiation
+#                    0 Filename declared
+#                    0 Finding file t4.trace
+#                    0 Tracefile opened
+#                     2 ENQUEUE:    0 0 000000000
+#                     4 ENQUEUE:    1 0 000000008
+#                     6 ENQUEUE:    2 0 000000108
+#                     8 ENQUEUE:    3 0 000000010
+#                    10 ENQUEUE: 1000 0 000040000
+#                    12 ENQUEUE: 1001 0 000040040
+#                    14 ENQUEUE: 1002 0 000040040
+#                    16 ENQUEUE: 2000 1 000000000
+#                    18 ENQUEUE: 2001 1 000000008
+#                    20 ENQUEUE: 2002 1 000000108
+#                    22 ENQUEUE: 2003 1 000000010
+#                    24 ENQUEUE: 2004 1 000040000
+#                    26 ENQUEUE: 2005 1 000040040
+#                    28 ENQUEUE: 2006 1 000040040
+#                    30 ENQUEUE: 3000 0 000040cc0
+#                    32 ENQUEUE: 3001 1 000040dc0
+#                  3002 READ Bank Group 0 Bank 0 Row 0000 Column 000
+#                  3004 ENQUEUE: 3002 0 000040ec0
+#                 3050 PRE
+#                 3074 ACT
+#                 3098 RD
+#                 3102 DATA
+#                 3104 READ Bank Group 0 Bank 0 Row 0000 Column 000
+#                  3107 ENQUEUE: 3003 1 000040e80
+#                 3154 RD
+#                 3155 DATA
+#                 3157 READ Bank Group 0 Bank 0 Row 0000 Column 004
+#                  3160 ENQUEUE: 3004 0 000040d80
+#                 3207 RD
+#                 3208 DATA
+#                 3210 READ Bank Group 0 Bank 0 Row 0000 Column 000
+#                 3260 RD
+#                 3261 DATA
+#                 3261 READ Bank Group 0 Bank 0 Row 0002 Column 000
+#                 3288 ACT
+#                 3312 RD
+#                 3316 DATA
+#                 3316 READ Bank Group 0 Bank 0 Row 0002 Column 001
+#                 3366 RD
+#                 3367 DATA
+#                 3367 READ Bank Group 0 Bank 0 Row 0002 Column 001
+#                 3417 RD
+#                 3418 DATA
+#                 3418 WRITE Bank Group 0 Bank 0 Row 0000 Column 000
+#                 3445 ACT
+#                 3469 WR
+#                 3513 DATA
+#                 3513 WRITE Bank Group 0 Bank 0 Row 0000 Column 000
+#                 3563 WR
+#                 3564 DATA
+#                 3564 WRITE Bank Group 0 Bank 0 Row 0000 Column 004
+#                 3614 WR
+#                 3615 DATA
+#                 3615 WRITE Bank Group 0 Bank 0 Row 0000 Column 000
+#                 3665 WR
+#                 3666 DATA
+#                 3666 WRITE Bank Group 0 Bank 0 Row 0002 Column 000
+#                 3693 ACT
+#                 3717 WR
+#                 3761 DATA
+#                 3761 WRITE Bank Group 0 Bank 0 Row 0002 Column 001
+#                 3811 WR
+#                 3812 DATA
+#                 3812 WRITE Bank Group 0 Bank 0 Row 0002 Column 001
+#                 3862 WR
+#                 3863 DATA
+#                 3863 READ Bank Group 0 Bank 0 Row 0002 Column 033
+#                 3913 RD
+#                 3914 DATA
+#                 3914 WRITE Bank Group 0 Bank 0 Row 0002 Column 037
+#                 3964 WR
+#                 3965 DATA
+#                 3965 READ Bank Group 0 Bank 0 Row 0002 Column 03b
+#                 4015 RD
+#                 4016 DATA
+#                 4016 WRITE Bank Group 0 Bank 0 Row 0002 Column 03a
+#                 4066 WR
+#                 4067 DATA
+#                 4067 READ Bank Group 0 Bank 0 Row 0002 Column 036
+#                 4117 RD
+#                 4118 DATA
+# ** Note: $stop    : memory_cont.sv(145)
+#    Time: 14593133 fs  Iteration: 0  Instance: /tb_top/parsing/mc
+# Break at memory_cont.sv line 145
+# Stopped at memory_cont.sv line 145
+#  quit
+# End time: 14:52:50 on Dec 06,2021, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0

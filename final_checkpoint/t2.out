@@ -1,0 +1,276 @@
+Reading pref.tcl
+
+# 2019.2_1
+
+# vsim -c tb_top "+infile=t2.trace" -do "run -all; quit" 
+# Start time: 14:33:41 on Dec 06,2021
+# ** Note: (vsim-8009) Loading existing optimized design _opt1
+# //  Questa Sim-64
+# //  Version 2019.2_1 linux_x86_64 May 13 2019
+# //
+# //  Copyright 1991-2019 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  QuestaSim and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading sv_std.std
+# Loading work.dram_defs(fast)
+# Loading work.tb_top(fast)
+# run -all
+#                    0 parser instantiation
+#                    0 Filename declared
+#                    0 Finding file t2.trace
+#                    0 Tracefile opened
+#                     2 ENQUEUE:    0 2 000040400
+#                     4 ENQUEUE: 1000 2 000080849
+#                     6 ENQUEUE: 2000 2 0000c0c92
+#                     8 ENQUEUE: 3000 2 0001010db
+#                    10 ENQUEUE: 4000 2 000141524
+#                    12 ENQUEUE:  904 2 00018196d
+#                    14 ENQUEUE: 1904 2 0001c1db6
+#                    16 ENQUEUE: 2904 2 0002021ff
+#                    18 ENQUEUE: 3904 2 000242607
+#                    20 ENQUEUE:  808 2 000282a4e
+#                    22 ENQUEUE: 1808 2 0002c2e95
+#                    24 ENQUEUE: 2808 2 0003032dc
+#                    26 ENQUEUE: 3808 2 000343723
+#                    28 ENQUEUE:  712 2 000383b6a
+#                    30 ENQUEUE: 1712 2 0003c3fb1
+#                    32 ENQUEUE: 2712 2 0004043f8
+#                  2713 FETCH Bank Group 0 Bank 0 Row 0002 Column 010
+#                  2715 ENQUEUE: 3712 2 000044007
+#                 2761 PRE
+#                 2785 ACT
+#                 2809 RD
+#                 2813 DATA
+#                 3712 FETCH Bank Group 0 Bank 0 Row 0004 Column 021
+#                  3715 ENQUEUE:  616 2 000083c46
+#                 3739 ACT
+#                 3763 RD
+#                 3767 DATA
+#                 3769 FETCH Bank Group 0 Bank 0 Row 0006 Column 032
+#                  3772 ENQUEUE: 1616 2 0000c3885
+#                 3796 ACT
+#                 3820 RD
+#                 3824 DATA
+#                 3826 FETCH Bank Group 0 Bank 0 Row 0008 Column 043
+#                  3829 ENQUEUE: 2616 2 0001034c4
+#                 3853 ACT
+#                 3877 RD
+#                 3881 DATA
+#                 4000 FETCH Bank Group 0 Bank 0 Row 000c Column 065
+#                  4003 ENQUEUE: 3616 2 000143103
+#                 4027 ACT
+#                 4051 RD
+#                 4055 DATA
+#                 4057 FETCH Bank Group 0 Bank 0 Row 000e Column 076
+#                  4060 ENQUEUE:  520 2 000182d42
+#                 4084 ACT
+#                 4108 RD
+#                 4112 DATA
+#                 4114 FETCH Bank Group 0 Bank 0 Row 0010 Column 087
+#                  4117 ENQUEUE: 1520 2 0001c2981
+#                 4141 ACT
+#                 4165 RD
+#                 4169 DATA
+#                 4171 FETCH Bank Group 0 Bank 0 Row 0012 Column 098
+#                  4174 ENQUEUE: 2520 2 0002025c0
+#                 4198 ACT
+#                 4222 RD
+#                 4226 DATA
+#                 4228 FETCH Bank Group 0 Bank 0 Row 0014 Column 0a9
+#                  4231 ENQUEUE: 3520 2 000242200
+#                 4255 ACT
+#                 4279 RD
+#                 4283 DATA
+#                 4285 FETCH Bank Group 0 Bank 0 Row 0016 Column 0ba
+#                  4288 ENQUEUE:  424 2 000281e41
+#                 4312 ACT
+#                 4336 RD
+#                 4340 DATA
+#                 4342 FETCH Bank Group 0 Bank 0 Row 0018 Column 0cb
+#                  4345 ENQUEUE: 1424 2 0002c1a82
+#                 4369 ACT
+#                 4393 RD
+#                 4397 DATA
+#                 4399 FETCH Bank Group 0 Bank 0 Row 001a Column 0dc
+#                  4402 ENQUEUE: 2424 2 0003016c3
+#                 4426 ACT
+#                 4450 RD
+#                 4454 DATA
+#                 4456 FETCH Bank Group 0 Bank 0 Row 001c Column 0ed
+#                  4459 ENQUEUE: 3424 2 000341304
+#                 4483 ACT
+#                 4507 RD
+#                 4511 DATA
+#                 4513 FETCH Bank Group 0 Bank 0 Row 001e Column 0fe
+#                  4516 ENQUEUE:  328 2 000380f45
+#                 4540 ACT
+#                 4564 RD
+#                 4568 DATA
+#                 4570 FETCH Bank Group 0 Bank 0 Row 0020 Column 10f
+#                  4573 ENQUEUE: 1328 2 0003c0b86
+#                 4597 ACT
+#                 4621 RD
+#                 4625 DATA
+#                 4627 FETCH Bank Group 0 Bank 0 Row 0002 Column 100
+#                  4630 ENQUEUE: 2328 2 0004007c7
+#                 4654 ACT
+#                 4678 RD
+#                 4682 DATA
+#                 4684 FETCH Bank Group 0 Bank 0 Row 0004 Column 0f1
+#                  4687 ENQUEUE: 3328 2 000004007
+#                 4711 ACT
+#                 4735 RD
+#                 4739 DATA
+#                 4741 FETCH Bank Group 0 Bank 0 Row 0006 Column 0e2
+#                  4744 ENQUEUE:  232 2 000043c46
+#                 4768 ACT
+#                 4792 RD
+#                 4796 DATA
+#                 4798 FETCH Bank Group 0 Bank 0 Row 0008 Column 0d3
+#                  4801 ENQUEUE: 1232 2 000083885
+#                 4825 ACT
+#                 4849 RD
+#                 4853 DATA
+#                 4855 FETCH Bank Group 0 Bank 0 Row 000a Column 054
+#                  4858 ENQUEUE: 2232 2 0000c34c4
+#                 4882 ACT
+#                 4906 RD
+#                 4910 DATA
+#                 4912 FETCH Bank Group 0 Bank 0 Row 000a Column 0c4
+#                  4915 ENQUEUE: 3232 2 000103103
+#                 4962 RD
+#                 4963 DATA
+#                 4965 FETCH Bank Group 0 Bank 0 Row 000c Column 0b5
+#                  4968 ENQUEUE:  136 2 000142d42
+#                 4992 ACT
+#                 5016 RD
+#                 5020 DATA
+#                 5022 FETCH Bank Group 0 Bank 0 Row 000e Column 0a6
+#                  5025 ENQUEUE: 1136 2 000182981
+#                 5049 ACT
+#                 5073 RD
+#                 5077 DATA
+#                 5079 FETCH Bank Group 0 Bank 0 Row 0010 Column 097
+#                  5082 ENQUEUE: 2136 2 0001c25c0
+#                 5106 ACT
+#                 5130 RD
+#                 5134 DATA
+#                 5136 FETCH Bank Group 0 Bank 0 Row 0012 Column 088
+#                  5139 ENQUEUE: 3136 2 000202200
+#                 5163 ACT
+#                 5187 RD
+#                 5191 DATA
+#                 5193 FETCH Bank Group 0 Bank 0 Row 0014 Column 079
+#                  5196 ENQUEUE:   40 2 000241e41
+#                 5220 ACT
+#                 5244 RD
+#                 5248 DATA
+#                 5250 FETCH Bank Group 0 Bank 0 Row 0016 Column 06a
+#                  5253 ENQUEUE: 1040 2 000281a82
+#                 5277 ACT
+#                 5301 RD
+#                 5305 DATA
+#                 5307 FETCH Bank Group 0 Bank 0 Row 0018 Column 05b
+#                  5310 ENQUEUE: 2040 2 0002c16c3
+#                 5334 ACT
+#                 5358 RD
+#                 5362 DATA
+#                 5364 FETCH Bank Group 0 Bank 0 Row 001a Column 04c
+#                  5367 ENQUEUE: 3040 2 000301304
+#                 5391 ACT
+#                 5415 RD
+#                 5419 DATA
+#                 5421 FETCH Bank Group 0 Bank 0 Row 001c Column 03d
+#                  5424 ENQUEUE: 4040 2 000340f45
+#                 5448 ACT
+#                 5472 RD
+#                 5476 DATA
+#                 5478 FETCH Bank Group 0 Bank 0 Row 001e Column 02e
+#                  5481 ENQUEUE:  944 2 000380b86
+#                 5505 ACT
+#                 5529 RD
+#                 5533 DATA
+#                 5535 FETCH Bank Group 0 Bank 0 Row 0020 Column 01f
+#                  5538 ENQUEUE: 1944 2 0003c07c7
+#                 5562 ACT
+#                 5586 RD
+#                 5590 DATA
+#                 5592 FETCH Bank Group 0 Bank 0 Row 0000 Column 100
+#                 5619 ACT
+#                 5643 RD
+#                 5647 DATA
+#                 5647 FETCH Bank Group 0 Bank 0 Row 0002 Column 0f1
+#                 5674 ACT
+#                 5698 RD
+#                 5702 DATA
+#                 5702 FETCH Bank Group 0 Bank 0 Row 0004 Column 0e2
+#                 5729 ACT
+#                 5753 RD
+#                 5757 DATA
+#                 5757 FETCH Bank Group 0 Bank 0 Row 0006 Column 0d3
+#                 5784 ACT
+#                 5808 RD
+#                 5812 DATA
+#                 5812 FETCH Bank Group 0 Bank 0 Row 0008 Column 0c4
+#                 5839 ACT
+#                 5863 RD
+#                 5867 DATA
+#                 5867 FETCH Bank Group 0 Bank 0 Row 000a Column 0b5
+#                 5894 ACT
+#                 5918 RD
+#                 5922 DATA
+#                 5922 FETCH Bank Group 0 Bank 0 Row 000c Column 0a6
+#                 5949 ACT
+#                 5973 RD
+#                 5977 DATA
+#                 5977 FETCH Bank Group 0 Bank 0 Row 000e Column 097
+#                 6004 ACT
+#                 6028 RD
+#                 6032 DATA
+#                 6032 FETCH Bank Group 0 Bank 0 Row 0010 Column 088
+#                 6059 ACT
+#                 6083 RD
+#                 6087 DATA
+#                 6087 FETCH Bank Group 0 Bank 0 Row 0012 Column 079
+#                 6114 ACT
+#                 6138 RD
+#                 6142 DATA
+#                 6142 FETCH Bank Group 0 Bank 0 Row 0014 Column 06a
+#                 6169 ACT
+#                 6193 RD
+#                 6197 DATA
+#                 6197 FETCH Bank Group 0 Bank 0 Row 0016 Column 05b
+#                 6224 ACT
+#                 6248 RD
+#                 6252 DATA
+#                 6252 FETCH Bank Group 0 Bank 0 Row 0018 Column 04c
+#                 6279 ACT
+#                 6303 RD
+#                 6307 DATA
+#                 6307 FETCH Bank Group 0 Bank 0 Row 001a Column 03d
+#                 6334 ACT
+#                 6358 RD
+#                 6362 DATA
+#                 6362 FETCH Bank Group 0 Bank 0 Row 001c Column 02e
+#                 6389 ACT
+#                 6413 RD
+#                 6417 DATA
+#                 6417 FETCH Bank Group 0 Bank 0 Row 001e Column 01f
+#                 6444 ACT
+#                 6468 RD
+#                 6472 DATA
+# ** Note: $stop    : memory_cont.sv(145)
+#    Time: 21939233 fs  Iteration: 0  Instance: /tb_top/parsing/mc
+# Break at memory_cont.sv line 145
+# Stopped at memory_cont.sv line 145
+#  quit
+# End time: 14:33:41 on Dec 06,2021, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0

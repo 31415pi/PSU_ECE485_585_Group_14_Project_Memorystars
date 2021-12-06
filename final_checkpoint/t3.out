@@ -1,0 +1,277 @@
+Reading pref.tcl
+
+# 2019.2_1
+
+# vsim -c tb_top "+infile=t3.trace" -do "run -all; quit" 
+# Start time: 14:44:05 on Dec 06,2021
+# ** Note: (vsim-8009) Loading existing optimized design _opt1
+# //  Questa Sim-64
+# //  Version 2019.2_1 linux_x86_64 May 13 2019
+# //
+# //  Copyright 1991-2019 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  QuestaSim and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading sv_std.std
+# Loading work.dram_defs(fast)
+# Loading work.tb_top(fast)
+# run -all
+#                    0 parser instantiation
+#                    0 Filename declared
+#                    0 Finding file t3.trace
+#                    0 Tracefile opened
+#                     2 ENQUEUE:    0 1 000040400
+#                     4 ENQUEUE: 1000 1 000080849
+#                     6 ENQUEUE: 2000 1 0000c0c92
+#                     8 ENQUEUE: 3000 1 0001010db
+#                    10 ENQUEUE: 4000 1 000141524
+#                    12 ENQUEUE:  904 1 00018196d
+#                    14 ENQUEUE: 1904 1 0001c1db6
+#                    16 ENQUEUE: 2904 1 0002021ff
+#                    18 ENQUEUE: 3904 1 000242607
+#                    20 ENQUEUE:  808 1 000282a4e
+#                    22 ENQUEUE: 1808 1 0002c2e95
+#                    24 ENQUEUE: 2808 1 0003032dc
+#                    26 ENQUEUE: 3808 1 000343723
+#                    28 ENQUEUE:  712 1 000383b6a
+#                    30 ENQUEUE: 1712 1 0003c3fb1
+#                    32 ENQUEUE: 2712 1 0004043f8
+#                  2713 WRITE Bank Group 0 Bank 0 Row 0002 Column 010
+#                  2715 ENQUEUE: 3712 1 000044007
+#                 2761 PRE
+#                 2785 ACT
+#                 2809 WR
+#                 2853 DATA
+#                 3712 WRITE Bank Group 0 Bank 0 Row 0004 Column 021
+#                  3715 ENQUEUE:  616 1 000083c46
+#                 3739 ACT
+#                 3763 WR
+#                 3807 DATA
+#                 3809 WRITE Bank Group 0 Bank 0 Row 0006 Column 032
+#                  3812 ENQUEUE: 1616 1 0000c3885
+#                 3836 ACT
+#                 3860 WR
+#                 3904 DATA
+#                 3906 WRITE Bank Group 0 Bank 0 Row 0008 Column 043
+#                  3909 ENQUEUE: 2616 1 0001034c4
+#                 3933 ACT
+#                 3957 WR
+#                 4001 DATA
+#                 4003 WRITE Bank Group 0 Bank 0 Row 000a Column 054
+#                  4006 ENQUEUE: 3616 1 000143103
+#                 4030 ACT
+#                 4054 WR
+#                 4098 DATA
+#                 4100 WRITE Bank Group 0 Bank 0 Row 000c Column 065
+#                  4103 ENQUEUE:  520 1 000182d42
+#                 4127 ACT
+#                 4151 WR
+#                 4195 DATA
+#                 4197 WRITE Bank Group 0 Bank 0 Row 000e Column 076
+#                  4200 ENQUEUE: 1520 1 0001c2981
+#                 4224 ACT
+#                 4248 WR
+#                 4292 DATA
+#                 4294 WRITE Bank Group 0 Bank 0 Row 0010 Column 087
+#                  4297 ENQUEUE: 2520 1 0002025c0
+#                 4321 ACT
+#                 4345 WR
+#                 4389 DATA
+#                 4391 WRITE Bank Group 0 Bank 0 Row 0012 Column 098
+#                  4394 ENQUEUE: 3520 1 000242200
+#                 4418 ACT
+#                 4442 WR
+#                 4486 DATA
+#                 4488 WRITE Bank Group 0 Bank 0 Row 0014 Column 0a9
+#                  4491 ENQUEUE:  424 1 000281e41
+#                 4515 ACT
+#                 4539 WR
+#                 4583 DATA
+#                 4585 WRITE Bank Group 0 Bank 0 Row 0016 Column 0ba
+#                  4588 ENQUEUE: 1424 1 0002c1a82
+#                 4612 ACT
+#                 4636 WR
+#                 4680 DATA
+#                 4682 WRITE Bank Group 0 Bank 0 Row 0018 Column 0cb
+#                  4685 ENQUEUE: 2424 1 0003016c3
+#                 4709 ACT
+#                 4733 WR
+#                 4777 DATA
+#                 4779 WRITE Bank Group 0 Bank 0 Row 001a Column 0dc
+#                  4782 ENQUEUE: 3424 1 000341304
+#                 4806 ACT
+#                 4830 WR
+#                 4874 DATA
+#                 4876 WRITE Bank Group 0 Bank 0 Row 001c Column 0ed
+#                  4879 ENQUEUE:  328 1 000380f45
+#                 4903 ACT
+#                 4927 WR
+#                 4971 DATA
+#                 4973 WRITE Bank Group 0 Bank 0 Row 001e Column 0fe
+#                  4976 ENQUEUE: 1328 1 0003c0b86
+#                 5000 ACT
+#                 5024 WR
+#                 5068 DATA
+#                 5070 WRITE Bank Group 0 Bank 0 Row 0020 Column 10f
+#                  5073 ENQUEUE: 2328 1 0004007c7
+#                 5097 ACT
+#                 5121 WR
+#                 5165 DATA
+#                 5167 WRITE Bank Group 0 Bank 0 Row 0002 Column 100
+#                  5170 ENQUEUE: 3328 1 000004007
+#                 5194 ACT
+#                 5218 WR
+#                 5262 DATA
+#                 5264 WRITE Bank Group 0 Bank 0 Row 0004 Column 0f1
+#                  5267 ENQUEUE:  232 1 000043c46
+#                 5291 ACT
+#                 5315 WR
+#                 5359 DATA
+#                 5361 WRITE Bank Group 0 Bank 0 Row 0006 Column 0e2
+#                  5364 ENQUEUE: 1232 1 000083885
+#                 5388 ACT
+#                 5412 WR
+#                 5456 DATA
+#                 5458 WRITE Bank Group 0 Bank 0 Row 0008 Column 0d3
+#                  5461 ENQUEUE: 2232 1 0000c34c4
+#                 5485 ACT
+#                 5509 WR
+#                 5553 DATA
+#                 5555 WRITE Bank Group 0 Bank 0 Row 000a Column 0c4
+#                  5558 ENQUEUE: 3232 1 000103103
+#                 5582 ACT
+#                 5606 WR
+#                 5650 DATA
+#                 5652 WRITE Bank Group 0 Bank 0 Row 000c Column 0b5
+#                  5655 ENQUEUE:  136 1 000142d42
+#                 5679 ACT
+#                 5703 WR
+#                 5747 DATA
+#                 5749 WRITE Bank Group 0 Bank 0 Row 000e Column 0a6
+#                  5752 ENQUEUE: 1136 1 000182981
+#                 5776 ACT
+#                 5800 WR
+#                 5844 DATA
+#                 5846 WRITE Bank Group 0 Bank 0 Row 0010 Column 097
+#                  5849 ENQUEUE: 2136 1 0001c25c0
+#                 5873 ACT
+#                 5897 WR
+#                 5941 DATA
+#                 5943 WRITE Bank Group 0 Bank 0 Row 0012 Column 088
+#                  5946 ENQUEUE: 3136 1 000202200
+#                 5970 ACT
+#                 5994 WR
+#                 6038 DATA
+#                 6040 WRITE Bank Group 0 Bank 0 Row 0014 Column 079
+#                  6043 ENQUEUE:   40 1 000241e41
+#                 6067 ACT
+#                 6091 WR
+#                 6135 DATA
+#                 6137 WRITE Bank Group 0 Bank 0 Row 0016 Column 06a
+#                  6140 ENQUEUE: 1040 1 000281a82
+#                 6164 ACT
+#                 6188 WR
+#                 6232 DATA
+#                 6234 WRITE Bank Group 0 Bank 0 Row 0018 Column 05b
+#                  6237 ENQUEUE: 2040 1 0002c16c3
+#                 6261 ACT
+#                 6285 WR
+#                 6329 DATA
+#                 6331 WRITE Bank Group 0 Bank 0 Row 001a Column 04c
+#                  6334 ENQUEUE: 3040 1 000301304
+#                 6358 ACT
+#                 6382 WR
+#                 6426 DATA
+#                 6428 WRITE Bank Group 0 Bank 0 Row 001c Column 03d
+#                  6431 ENQUEUE: 4040 1 000340f45
+#                 6455 ACT
+#                 6479 WR
+#                 6523 DATA
+#                 6525 WRITE Bank Group 0 Bank 0 Row 001e Column 02e
+#                  6528 ENQUEUE:  944 1 000380b86
+#                 6552 ACT
+#                 6576 WR
+#                 6620 DATA
+#                 6622 WRITE Bank Group 0 Bank 0 Row 0020 Column 01f
+#                  6625 ENQUEUE: 1944 1 0003c07c7
+#                 6649 ACT
+#                 6673 WR
+#                 6717 DATA
+#                 6719 WRITE Bank Group 0 Bank 0 Row 0000 Column 100
+#                 6746 ACT
+#                 6770 WR
+#                 6814 DATA
+#                 6814 WRITE Bank Group 0 Bank 0 Row 0002 Column 0f1
+#                 6841 ACT
+#                 6865 WR
+#                 6909 DATA
+#                 6909 WRITE Bank Group 0 Bank 0 Row 0004 Column 0e2
+#                 6936 ACT
+#                 6960 WR
+#                 7004 DATA
+#                 7004 WRITE Bank Group 0 Bank 0 Row 0006 Column 0d3
+#                 7031 ACT
+#                 7055 WR
+#                 7099 DATA
+#                 7099 WRITE Bank Group 0 Bank 0 Row 0008 Column 0c4
+#                 7126 ACT
+#                 7150 WR
+#                 7194 DATA
+#                 7194 WRITE Bank Group 0 Bank 0 Row 000a Column 0b5
+#                 7221 ACT
+#                 7245 WR
+#                 7289 DATA
+#                 7289 WRITE Bank Group 0 Bank 0 Row 000c Column 0a6
+#                 7316 ACT
+#                 7340 WR
+#                 7384 DATA
+#                 7384 WRITE Bank Group 0 Bank 0 Row 000e Column 097
+#                 7411 ACT
+#                 7435 WR
+#                 7479 DATA
+#                 7479 WRITE Bank Group 0 Bank 0 Row 0010 Column 088
+#                 7506 ACT
+#                 7530 WR
+#                 7574 DATA
+#                 7574 WRITE Bank Group 0 Bank 0 Row 0012 Column 079
+#                 7601 ACT
+#                 7625 WR
+#                 7669 DATA
+#                 7669 WRITE Bank Group 0 Bank 0 Row 0014 Column 06a
+#                 7696 ACT
+#                 7720 WR
+#                 7764 DATA
+#                 7764 WRITE Bank Group 0 Bank 0 Row 0016 Column 05b
+#                 7791 ACT
+#                 7815 WR
+#                 7859 DATA
+#                 7859 WRITE Bank Group 0 Bank 0 Row 0018 Column 04c
+#                 7886 ACT
+#                 7910 WR
+#                 7954 DATA
+#                 7954 WRITE Bank Group 0 Bank 0 Row 001a Column 03d
+#                 7981 ACT
+#                 8005 WR
+#                 8049 DATA
+#                 8049 WRITE Bank Group 0 Bank 0 Row 001c Column 02e
+#                 8076 ACT
+#                 8100 WR
+#                 8144 DATA
+#                 8144 WRITE Bank Group 0 Bank 0 Row 001e Column 01f
+#                 8171 ACT
+#                 8195 WR
+#                 8239 DATA
+# ** Note: $stop    : memory_cont.sv(145)
+#    Time: 27337835 fs  Iteration: 0  Instance: /tb_top/parsing/mc
+# Break at memory_cont.sv line 145
+# Stopped at memory_cont.sv line 145
+#  quit
+# End time: 14:44:06 on Dec 06,2021, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0

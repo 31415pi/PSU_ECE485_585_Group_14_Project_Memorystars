@@ -60,7 +60,7 @@ module parser							//Parameters can be changed per module
         $display($time," Finding file %s",filename);
       else
         $display($time," %s not found...",filename);
-      fd_r = $fopen("tracefile2.txt","r");	   			//open tracefile in readmode
+      fd_r = $fopen(filename,"r");	   			//open tracefile in readmode
       if (fd_r)	
         $display($time," Tracefile opened");
       else $display($time," Unable to open tracefile.");

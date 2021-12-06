@@ -43,13 +43,18 @@ import dram_defs::*;
 	int Tccd_s = 4;
 	int Tcwd = 20;
 	int Twr = 20;
+	int Telapsed = 0;
 	
 	int speed = 1562.5;
-	int clk_cycle_counter = 0;
 
 	logic step_complete_flag = 1'b0;
 	logic step_complete = 1'b0;
 	logic print_once = 1'b1;
+	logic reset_counter = 1'b0;
+	logic counter_reset = 1'b0;
+	logic ras_display = 1'b0;
+	logic first_instruction = 1'b1;
+	logic hail_mary = 1'b1;
 	logic[63:0] internal_counter;
 
 	task act_event_different_bank(output step_complete);
@@ -63,13 +68,18 @@ import dram_defs::*;
 	endtask
 	
 	task act_event(output step_complete);
-		#(Trcd*2*speed)
+		if(first_instruction) begin
+			#(Trcd*2*speed)
+			;
+		end
 		step_complete = 1'b1;
 	endtask
 	
 	task pre_event(output step_complete);
-		//$display("wtf");
-		#(Trp*2*speed);
+		if(first_instruction) begin
+			#(Trp*2*speed);
+			;
+		end
 		step_complete = 1'b1;
 	endtask	
 
@@ -84,18 +94,25 @@ import dram_defs::*;
 	endtask
 
 	task rdwr_event(output step_complete);
-		//$display("%d wtf", internal_counter);
-		#(Tcl*2*speed);
+		if(first_instruction) begin
+			#(Tcl*2*speed);
+			;
+		end else if(POLICY == HIT) begin
+			#(Tcl*2*speed);
+			;
+		end
 		step_complete = 1'b1;
 	endtask	
 
 	task data_event(output step_complete);
-		// If we are reading or writing, we need to add / remove time
-		if(rd_wr) begin
-			#(Tburst*2*speed);
-			#(Twr*2*speed);
-			#(Tcwd*2*speed);
-		end else #(Tburst*2*speed); // A data write is just Tburst
+		if(POLICY == HIT) begin ; end //$display("%s %s", s.name, S.name); #(Tcl*2*speed) ; end
+		else if(first_instruction) begin
+			if(rd_wr) begin
+				#(Tburst*2*speed);
+				#(Twr*2*speed);
+				#(Tcwd*2*speed);
+			end else #(Tburst*2*speed); // A data write is just Tburst
+		end
 		step_complete = 1'b1;
 	endtask	
 
@@ -105,56 +122,106 @@ import dram_defs::*;
 
 	
 	always_comb begin
+		if(counter_reset) reset_counter = 0;
 		if(step_complete_flag) step_complete = '1;
 		if(previous_policy != NULL) begin 
 			if(en) 	begin 
 				S = IDLE; 
+				//$display("%d", Telapsed - 24);
 				$display("%d %s Bank Group %X Bank %X Row %X Column %X", internal_counter, cmd.name, bank_group, bank, row, column);	
+				Telapsed = 0;
+				first_instruction = '0;
 			end
 		end
 		case(s)
 			IDLE:    S = IDLE; 
 			PRE:     if(step_complete) begin 
-					//$display("%d REQUEST RECEIVED", internal_counter - 50); 
+					Telapsed = Telapsed + Trp;
 					S = ACT;  
 					step_complete = '0;
 			end
 			RRDS: 	 if(step_complete) begin 
-					$display("%d RRDS", internal_counter - 50); 
-				
+					$display("%d RRDS", internal_counter - 0); 
+					first_instruction = '1;
+					Telapsed = Telapsed + Trrd_s + 24;
 					if(different_b) S = RRDL;
 					else S = RDWR;
 					step_complete = '0;
 			end
-			RRDL:	if(step_complete) begin $display("%d RRDL", internal_counter - 50); S = RDWR; step_complete = '0; end
+			RRDL:	if(step_complete) begin 
+					$display("%d RRDL", internal_counter - 0); 
+					S = RDWR; 
+					step_complete = '0; 
+					first_instruction = '1;
+					Telapsed = Telapsed + Trrd_l; 
+			end
 			CCDS:	if(step_complete) begin
-					$display("%d CCDS", internal_counter - 50);
+					$display("%d CCDS", internal_counter - 0);
 					
+					Telapsed = Telapsed + Tccd_s;	
 					if(different_b) S = CCDL;
 					else S = RDWR;
+					first_instruction = '1;
 					step_complete = '0;
 			end
-			CCDL:	if(step_complete) begin $display("%d CCDL", internal_counter - 50); S = DATA; step_complete = '0; end
+			CCDL:	if(step_complete) begin 
+					$display("%d CCDL", internal_counter - 0); 
+					S = DATA; 	
+					step_complete = '0; 
+					first_instruction = '1;
+					Telapsed = Telapsed + Tccd_l + 24; 
+			end
 			ACT:    if(step_complete) begin 
 				if(previous_step != IDLE) begin
-					$display("%d PRE", internal_counter - 50); 
+					first_instruction = '1;
+					$display("%d PRE", internal_counter - 0); 
 				end
+				first_instruction = '1;
+				Telapsed = Telapsed + Trcd;
 				S = RDWR; 
 				step_complete = '0; 
 			end
 			RDWR:   if(step_complete) begin 
-				if(previous_step != IDLE) $display("%d ACT", internal_counter - 50); 
+				if(previous_step != IDLE) $display("%d ACT", internal_counter - 0); 
+				Telapsed = Telapsed + Tcl;
 				S = DATA; 
+				first_instruction = '1;
 				step_complete = '0; 
 			end
 			DATA:   if(step_complete) begin 
-				if(rd_wr) $display("%d WR", internal_counter - 50); 
-				else $display("%d RD", internal_counter - 50); 
+				Telapsed = Telapsed + Tburst;
+				if(rd_wr) begin
+					Telapsed = Telapsed + Twr;
+					Telapsed = Telapsed + Tcwd;
+					$display("%d WR", internal_counter - 0); 
+				end else begin
+					// Let the row access strobe finish.
+					if(POLICY == MISS) begin 
+						if( (Telapsed-Trp) < Tras) begin 
+							//$display("PAGE MISS! ADDING %d CYCLES!", (Tras- (Telapsed-Trp))); 
+							Telapsed = Telapsed + (Tras - (Telapsed-Trp)); 
+							ras_display = '1;
+						end
+						//else $display("%d %d", Telapsed, Tras);
+					end
+					$display("%d RD", internal_counter - 0); 
+				end
+				
 				S = DONE; 
 				step_complete = '0; 
+				first_instruction = '1;
 				print_once = 1'b1; 
 			end
-			DONE: if(S == DONE) begin if(print_once) begin $display("%d DATA", internal_counter - 50); print_once = 1'b0; end end
+			DONE: if(S == DONE) begin 
+				if(print_once) begin 
+					if(ras_display) begin
+						$display("%d DATA", internal_counter - 0); print_once = 1'b0;
+						$display("%d RAS", internal_counter - 2);
+						ras_display = '0;
+					end else $display("%d DATA", internal_counter - 0); print_once = 1'b0; 
+				end 
+				first_instruction = '1;
+			end
 			default: S = IDLE;
 		endcase	
 		
@@ -194,7 +261,7 @@ import dram_defs::*;
 				if(S == RDWR) rdwr_event(step_complete_flag); 
 				else if(S == CCDS) rdwr_event_different_bank_group(step_complete_flag);
 				else if(S == CCDL) rdwr_event_different_bank(step_complete_flag);
-				else if(S == DATA) data_event(step_complete_flag);
+				else if(S == DATA) begin data_event(step_complete_flag); end
 				else if(S == DONE) begin stop_events(step_complete_flag); previous_policy = POLICY; end
 			end
 			MISS: begin		
@@ -218,6 +285,7 @@ import dram_defs::*;
 		if(s != S) previous_step <= s;	
 		s <= S;
 		internal_counter <= counter;
+		counter_reset <= 0;
 	end
 	
 endmodule: dram_cmd

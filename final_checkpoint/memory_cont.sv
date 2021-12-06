@@ -73,6 +73,7 @@ import dram_defs::*;
               data_req= 1'b0;			//stop requesting data
       	      {MEMOP_TIME, MEMOP_CMD, TARGET_ADDY} = buffer[buffer.size() - 1];	
 	      $display("%d ENQUEUE: %d %d %X", cycle, MEMOP_TIME, MEMOP_CMD, TARGET_ADDY);
+	      //$monitor("%d %d %d %s %s", DUT.first_instruction, DUT.en, DUT.internal_counter, DUT.s.name, DUT.S.name);
               #5;
             end
         end
