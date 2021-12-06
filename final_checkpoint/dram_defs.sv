@@ -22,5 +22,10 @@ typedef enum logic [3:0] {
 	MISS       = 4'b0011
 }dram_policy_t;
 
+typedef enum logic [1:0] {
+	READ	= 2'b00,
+	WRITE	= 2'b01,
+	FETCH	= 2'b10
+}dram_command_t;
 
 endpackage: dram_defs

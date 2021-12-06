@@ -10,6 +10,7 @@
 /////////////////////////////////////////////////////////////////////////////
 
 module dram_cmd
+`timescale 1fs/1fs
 import dram_defs::*;
 (
 	input logic		clk,
@@ -17,6 +18,12 @@ import dram_defs::*;
 	input logic		different_bg,
 	input logic		different_b,
 	input logic		en,
+	input logic		rd_wr, // 0 for read, 1 for write
+	input dram_command_t	cmd,
+	input logic[1:0]	bank,
+	input logic[1:0]	bank_group,
+	input logic[14:0]	row,
+	input logic[10:0]	column,
 	input dram_policy_t POLICY,
 	output dram_command_steps_t DRAM_STATUS
 
@@ -34,6 +41,10 @@ import dram_defs::*;
 	int Trrd_s = 4;
 	int Tccd_l = 8;
 	int Tccd_s = 4;
+	int Tcwd = 20;
+	int Twr = 20;
+	
+	int speed = 1562.5;
 	int clk_cycle_counter = 0;
 
 	logic step_complete_flag = 1'b0;
@@ -42,42 +53,47 @@ import dram_defs::*;
 	logic[63:0] internal_counter;
 
 	task act_event_different_bank(output step_complete);
-		#(Trrd_l*2*5);
+		#(Trrd_l*2*speed);
 		step_complete = 1'b1;
 	endtask
 	
 	task act_event_different_bank_group(output step_complete);
-		#(Trrd_s*2*5);
+		#(Trrd_s*2*speed);
 		step_complete = 1'b1;
 	endtask
 	
 	task act_event(output step_complete);
-		#(Trcd*2*5)
+		#(Trcd*2*speed)
 		step_complete = 1'b1;
 	endtask
 	
 	task pre_event(output step_complete);
-		#(Trp*2*5);
+		#(Trp*2*speed);
 		step_complete = 1'b1;
 	endtask	
 
 	task rdwr_event_different_bank(output step_complete);
-		#(Tccd_l*2*5);
+		#(Tccd_l*2*speed);
 		step_complete = 1'b1;
 	endtask
 	
 	task rdwr_event_different_bank_group(output step_complete);
-		#(Tccd_s*2*5);
+		#(Tccd_s*2*speed);
 		step_complete = 1'b1;	
 	endtask
 
 	task rdwr_event(output step_complete);
-		#(Tcl*2*5);
+		#(Tcl*2*speed);
 		step_complete = 1'b1;
 	endtask	
 
 	task data_event(output step_complete);
-		#(Tburst*2*5);
+		// If we are reading or writing, we need to add / remove time
+		if(rd_wr) begin
+			#(Tburst*2*speed);
+			#(Twr*2*speed);
+			#(Tcwd*2*speed);
+		end else #(Tburst*2*speed); // A data write is just Tburst
 		step_complete = 1'b1;
 	endtask	
 
@@ -89,7 +105,10 @@ import dram_defs::*;
 	always_comb begin
 		if(step_complete_flag) step_complete = '1;
 		if(previous_policy != NULL) begin 
-			if(en) S = IDLE; 
+			if(en) 	begin 
+				S = IDLE; 
+				$display("%d %s Bank Group %X Bank %X Row %X Column %X", internal_counter, cmd.name, bank_group, bank, row, column);	
+			end
 		end
 		case(s)
 			IDLE:    S = IDLE; 
@@ -130,13 +149,16 @@ import dram_defs::*;
 		case(POLICY)
 			HIT: begin
 				if(s == IDLE) begin
+					//$display("%d %s Bank Group %X Bank %X Row %X Column %X", internal_counter, cmd.name, bank_group, bank, row, column);	
 					if(different_bg) S <= CCDS;
 					else if(different_b) S <= CCDL;
 					else S <= RDWR;
 				end
 			end
 			MISS: begin		
-				if(s == IDLE) S <= PRE;
+				if(s == IDLE) begin
+					S <= PRE;
+				end
 			end
 			EMPTY: begin		
 				if(s == IDLE) begin
