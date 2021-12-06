@@ -68,6 +68,7 @@ import dram_defs::*;
 	endtask
 	
 	task pre_event(output step_complete);
+		//$display("wtf");
 		#(Trp*2*speed);
 		step_complete = 1'b1;
 	endtask	
@@ -83,6 +84,7 @@ import dram_defs::*;
 	endtask
 
 	task rdwr_event(output step_complete);
+		//$display("%d wtf", internal_counter);
 		#(Tcl*2*speed);
 		step_complete = 1'b1;
 	endtask	
@@ -113,34 +115,46 @@ import dram_defs::*;
 		case(s)
 			IDLE:    S = IDLE; 
 			PRE:     if(step_complete) begin 
-					$display("%d REQUEST RECEIVED", internal_counter); 
+					//$display("%d REQUEST RECEIVED", internal_counter - 50); 
 					S = ACT;  
 					step_complete = '0;
 			end
 			RRDS: 	 if(step_complete) begin 
-					$display("%d RRDS", internal_counter); 
+					$display("%d RRDS", internal_counter - 50); 
 				
 					if(different_b) S = RRDL;
-					else S = ACT;
+					else S = RDWR;
 					step_complete = '0;
 			end
-			RRDL:	if(step_complete) begin $display("%d RRDL", internal_counter); S = RDWR; step_complete = '0; end
+			RRDL:	if(step_complete) begin $display("%d RRDL", internal_counter - 50); S = RDWR; step_complete = '0; end
 			CCDS:	if(step_complete) begin
-					$display("%d CCDS", internal_counter);
+					$display("%d CCDS", internal_counter - 50);
 					
 					if(different_b) S = CCDL;
 					else S = RDWR;
 					step_complete = '0;
 			end
-			CCDL:	if(step_complete) begin $display("%d CCDL", internal_counter); S = DATA; step_complete = '0; end
-			ACT:     if(step_complete) begin if(previous_step != IDLE) $display("%d PRE", internal_counter); S = RDWR; step_complete = '0; end
-			RDWR:    if(step_complete) begin 
-				if(previous_step != IDLE) $display("%d ACT", internal_counter); 
-					S = DATA; 
-					step_complete = '0; 
+			CCDL:	if(step_complete) begin $display("%d CCDL", internal_counter - 50); S = DATA; step_complete = '0; end
+			ACT:    if(step_complete) begin 
+				if(previous_step != IDLE) begin
+					$display("%d PRE", internal_counter - 50); 
+				end
+				S = RDWR; 
+				step_complete = '0; 
 			end
-			DATA:    if(step_complete) begin $display("%d RDWR", internal_counter); S = DONE; step_complete = '0; print_once = 1'b1; end
-			DONE: if(S == DONE) begin if(print_once) begin $display("%d DATA", internal_counter); print_once = 1'b0; end end
+			RDWR:   if(step_complete) begin 
+				if(previous_step != IDLE) $display("%d ACT", internal_counter - 50); 
+				S = DATA; 
+				step_complete = '0; 
+			end
+			DATA:   if(step_complete) begin 
+				if(rd_wr) $display("%d WR", internal_counter - 50); 
+				else $display("%d RD", internal_counter - 50); 
+				S = DONE; 
+				step_complete = '0; 
+				print_once = 1'b1; 
+			end
+			DONE: if(S == DONE) begin if(print_once) begin $display("%d DATA", internal_counter - 50); print_once = 1'b0; end end
 			default: S = IDLE;
 		endcase	
 		

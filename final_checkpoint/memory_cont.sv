@@ -92,18 +92,19 @@ import dram_defs::*;
 			if(MEMOP_TIME <= cycle) begin
 
 				$cast(cmd, MEMOP_CMD);
-				bank_group <= TARGET_ADDY[35:34];
-				bank <= TARGET_ADDY[33:32];
-				row <= TARGET_ADDY[31:17];
-				column <= TARGET_ADDY[16:6];
+				bank_group = TARGET_ADDY[35:34];
+				bank = TARGET_ADDY[33:32];
+				row = TARGET_ADDY[31:17];
+				column = TARGET_ADDY[16:6];
 				
 				// Handle the page polic
 				if( (DUT.s == IDLE) && (DUT.S == IDLE) ) begin // Edge case: we just started the program
-					activated_row <= row;
-					selected_group <= bank_group;
-					precharged_bank <= bank;			
+					activated_row = row;
+					selected_group = bank_group;
+					precharged_bank = bank;			
 					if(cmd == WRITE) rd_wr <= 1; else rd_wr <= 0;
 					POLICY <= MISS;
+					$display("%d %s Bank Group %X Bank %X Row %X Column %X", cycle, cmd.name, bank_group, bank, row, column);	
 				end else begin 
 					if(row == activated_row) begin 
 						different_b <= 0;
@@ -118,6 +119,7 @@ import dram_defs::*;
 						different_bg <= 0;
 						if(cmd == WRITE) rd_wr <= 1; else rd_wr <= 0;
 						if(bank_group != selected_group) different_bg <= 1;
+						if(bank != precharged_bank) different_b <= 1;
 						POLICY <= EMPTY; 
 					end
 					else begin 
@@ -125,11 +127,13 @@ import dram_defs::*;
 						different_bg <= 0;
 						if(cmd == WRITE) rd_wr <= 1; else rd_wr <= 0;
 						if(bank_group != selected_group) different_bg <= 1;
+						if(bank != precharged_bank) different_b <= 1;
 						POLICY <= MISS; 
 					end
-					activated_row <= row;
-					selected_group <= bank_group;
-					precharged_bank <= bank;			
+					activated_row = row;
+					selected_group = bank_group;
+					precharged_bank = bank;		
+
 				end
 				en <= 1;
 				@(negedge clock);
@@ -137,7 +141,7 @@ import dram_defs::*;
 			end else buffer = { buffer, { MEMOP_TIME, MEMOP_CMD, TARGET_ADDY } };
 		end else begin
 			// ... know when to stop the program.
- 	   		if(buffer.size() == 0) begin $display("END OF PROGRAM!"); $stop; end
+ 	   		if(buffer.size() == 0) begin #(600*2*1562.5) while(DUT.s != DUT.S) begin /*$display("%s %s", DUT.s.name, DUT.S.name)*/; end $stop; end
 		end
    	   end
          end
