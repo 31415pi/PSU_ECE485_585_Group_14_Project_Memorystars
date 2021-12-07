@@ -20,14 +20,21 @@ parameter u64 bits_sel =  3; // Bytes Select.
 
 typedef enum { // Define Order from LSB.
   SEL, COL, ROW, BNK, GRP
+//SEL, GRP, BNK, COL, ROW
 //SEL, COL, GRP, BNK, ROW // probably a better address mapping.
 } e_addr_mapping;
 
-parameter u64 shift_row = 14;
-parameter u64 shift_col =  3;
-parameter u64 shift_grp = 31;
-parameter u64 shift_bnk = 29;
+//parameter u64 shift_row = 14;
+//parameter u64 shift_col =  3;
+//parameter u64 shift_grp = 31;
+//parameter u64 shift_bnk = 29;
+//parameter u64 shift_sel =  0;
+
 parameter u64 shift_sel =  0;
+parameter u64 shift_grp =  bits_sel;
+parameter u64 shift_bnk =  bits_sel + bits_grp;
+parameter u64 shift_col =  bits_sel + bits_grp + bits_bnk;
+parameter u64 shift_row =  bits_sel + bits_grp + bits_bnk + bits_col;
 
 parameter u64 mask_adr = ((1 << bits_adr) - 1);
 parameter u64 mask_row = ((1 << bits_row) - 1) << shift_row;
