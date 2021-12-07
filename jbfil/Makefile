@@ -23,7 +23,7 @@ LIB = work/built.signal
 
 
 run: $(LIB)
-	vsim -c tb -do "run -all; quit" $(sim_args) | grep -v -x -f filter_lines | sed 's/^# //'
+	vsim -c tb -do "run -all; quit" $(sim_args) | grep -v -x -f filter | sed 's/^# //'
 
 debug: $(LIB)
 	vsim -c tb -do "run -all; quit" $(sim_args) | grep -v -x -f filter_license | sed 's/^# //'
