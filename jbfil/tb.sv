@@ -1,10 +1,42 @@
 // ECE585 Dram Scheduler - Julia Filipchuk
+//
+// Features
+//  - fifo or ready based scheduling.
+//  - satisfy requests even if not pending.
 
 typedef longint unsigned u64;
 typedef int unsigned u32;
 //typedef bit bool;
 
 parameter max_u64 = 64'hFFFF_FFFF_FFFF_FFFF;
+
+// Address to Memory Organization
+parameter u64 bits_adr = 33;
+parameter u64 bits_row = 15;
+parameter u64 bits_col = 11;
+parameter u64 bits_grp =  2;
+parameter u64 bits_bnk =  2;
+parameter u64 bits_sel =  3; // Bytes Select.
+
+typedef enum { // Define Order from LSB.
+  SEL, COL, ROW, BNK, GRP
+//SEL, COL, GRP, BNK, ROW // probably a better address mapping.
+} e_addr_mapping;
+
+parameter u64 shift_row = 14;
+parameter u64 shift_col =  3;
+parameter u64 shift_grp = 31;
+parameter u64 shift_bnk = 29;
+parameter u64 shift_sel =  0;
+
+parameter u64 mask_adr = ((1 << bits_adr) - 1);
+parameter u64 mask_row = ((1 << bits_row) - 1) << shift_row;
+parameter u64 mask_col = ((1 << bits_col) - 1) << shift_col;
+parameter u64 mask_grp = ((1 << bits_grp) - 1) << shift_grp;
+parameter u64 mask_bnk = ((1 << bits_bnk) - 1) << shift_bnk;
+parameter u64 mask_sel = ((1 << bits_sel) - 1) << shift_sel;
+parameter u64 mask_match = mask_row | mask_col | mask_grp | mask_bnk;
+
 
 // Dram Timing Parameters.
 parameter dram_cycle = 2; // Clock cycles per dram cycle.
@@ -31,6 +63,19 @@ typedef enum {
   READ, WRITE, FETCH
 } e_reqest_access;
 
+typedef enum {
+  PAGE_TBD, PAGE_HIT, PAGE_MISS, PAGE_EMPTY
+} e_page_result;
+
+typedef enum {
+  LOG_NONE,   // No extra info.
+  LOG_PAGE,   // Show page HIT, MISS, EMPTY
+  LOG_BANK,   // Show Bank command states.
+  LOG_QUEUED, // Show queued requests.
+  LOG_EXTRA,  // Show explicitly request information row, col, grp, bnk.
+  LOG_CHECKS = 9  // Show checks, address map.
+} e_log_level;
+
 typedef struct {
   u64 cycles;
   u32 access;
@@ -39,14 +84,17 @@ typedef struct {
 
 typedef struct {
   req_input inp;
-  int grp, bank, col, row, sel; // Components of address
+  u64 id;
+  int grp, bnk, col, row, sel; // Components of address
   int bank_idx;
+  u64 addr_match; // Portion of address that will match consecutive accesses.
   
   u64 queued;
   u64 done; // Only for checkpoint 2
   u64 started;
   u64 finished;
   bit pending;
+  e_page_result page_res;
 } mem_request;
 
 typedef enum {
@@ -58,7 +106,8 @@ typedef enum {
 typedef struct {
   u64 cycles;
   int bank_idx;
-  req_input ident; // input identifier.
+  u64 req_id; // input identifier.
+  u64 addr_match;
 } bank_rw;
 
 typedef struct {
@@ -75,10 +124,12 @@ typedef struct {
 
 
 // Global Parameters
+// =============================================================================
 int fd = 0;
 string inp_filename = "input.txt";
 bit inp_valid = 0;
 bit inp_finished = 0;
+u64 req_next_id = 0;
 req_input inp;
 bit inp_echo = 0;
 int verbose = 0;
@@ -92,20 +143,48 @@ u64  next[$]; // Holds possible next events.
 bank banks[16];
 bank_rw scheduled[$]; // Holds pending reads/writes.
 int last_grp = 100;
+// =============================================================================
 
+
+task display_checks();
+  begin
+    if (verbose < LOG_CHECKS) return;
+    
+    $display("Address Organization");
+    $display("        %64s %5s %5s", "mask", "bits", "shift");
+    $display(" addr   %b %5d %5d", mask_adr, bits_adr, 0);
+    $display(" row    %b %5d %5d", mask_row, bits_row, shift_row);
+    $display(" col    %b %5d %5d", mask_col, bits_col, shift_col);
+    $display(" grp    %b %5d %5d", mask_grp, bits_grp, shift_grp);
+    $display(" bank   %b %5d %5d", mask_bnk, bits_bnk, shift_bnk);
+    $display(" sel    %b %5d %5d", mask_sel, bits_sel, shift_sel);
+
+    $finish();
+  end
+endtask
 
 task initialize();
   begin
+
+    // Read Command line args.
     if ($test$plusargs("show_read"))
       inp_echo = 1;
     else
       inp_echo = 0;
     
-    $value$plusargs("loop_limit=%d", loops_limit);
-    $value$plusargs("inpfile=%s", inp_filename);
-    $value$plusargs("verbose=%d", verbose);
+    if (!$value$plusargs("loop_limit=%d", loops_limit))
+      loops_limit = 0;
+    if (!$value$plusargs("inpfile=%s", inp_filename))
+      inp_filename = "input.txt";
+    if (!$value$plusargs("verbose=%d", verbose))
+      verbose = 0;
     
-    
+    display_checks();
+
+    // Assign initial values.
+
+    // Open the input file. Close previous file if needed.
+    if (fd) $fclose(fd);
     fd = $fopen(inp_filename, "r");
     if (!fd) begin
       $display("Unable to open file: %s", inp_filename);
@@ -113,7 +192,7 @@ task initialize();
     end
     
     for (int i = 0; i < $size(banks); ++i) begin
-      banks[i].state = EMPTY;
+      banks[i].state = CHARGED; // Starts out charged.
       banks[i].pending = 0;
       banks[i].next_act = max_u64;
     end
@@ -144,30 +223,36 @@ endtask
 task automatic new_request(inout mem_request req, input req_input inp);
   begin
     req.inp = inp;
-    req.grp  = inp.addr[30 +:  2];
-    req.bank = inp.addr[29 +:  2];
-    req.row  = inp.addr[17 +: 15];
-    req.col  = inp.addr[ 6 +: 11];
-    req.sel  = inp.addr[ 0 +:  6];
+    req.id = ++req_next_id;
+    req.grp  = inp.addr[shift_grp +: bits_grp]; // TODO: Encode all of these as parameters.
+    req.bnk  = inp.addr[shift_bnk +: bits_bnk];
+    req.row  = inp.addr[shift_row +: bits_row];
+    req.col  = inp.addr[shift_col +: bits_col];
+    req.sel  = inp.addr[shift_sel +: bits_sel];
     req.pending = 0;
-    req.bank_idx = req.grp * 4 + req.bank; // Build index into bank array.
+    req.addr_match = inp.addr & mask_match;
+    req.bank_idx = req.grp * 4 + req.bnk; // Build index into bank array.
+    req.page_res = PAGE_TBD;
   end
 endtask : new_request;
 
-// DRAM BANK MODEL
+// Output a memory request to the given bank.
 task automatic command_bank(inout bank bank, inout mem_request req);
   bank_rw rw;
   u64 extra_grp_delay;
   begin
     
-    //assert (dram_this_cycle == 0) else $error("Already sent command this cycle");
-    //assert (cycles & 1 == 0) else $error("Not in memory clock");
-    dram_this_cycle = 0;
+    assert (dram_this_cycle == 0) else $error("Already sent command this cycle");
+    assert ((cycles & 1) == 0) else $error("Not in memory clock cycles=%0d", cycles);
+    dram_this_cycle = 1; // Mark that command sent this cycle.
     
     case (bank.state)
+
+      // This state marks non-charged with no row loaded. Currently not used!
       EMPTY: begin
         // PRE <bank group> <bank>
-        $display("%d PRE %0d %0d", cycles, req.grp, req.bank);
+        $display("%d PRE %0d %0d", cycles, req.grp, req.bnk);
+        assert(req.page_res != PAGE_TBD) else $error("Possible Invalid state.");
         
         bank.pending = 1;
         bank.state = CHARGED;
@@ -175,7 +260,13 @@ task automatic command_bank(inout bank bank, inout mem_request req);
       end
       
       CHARGED: begin // BANK Charged
-        $display("%d ACT %0d %0d", cycles, req.grp, req.bank);
+        $display("%d ACT %0d %0d", cycles, req.grp, req.bnk);
+        if (req.page_res == PAGE_TBD) begin
+          req.page_res = PAGE_EMPTY;
+          log_req(LOG_PAGE, req, "ACTIVATE ROW {PAGE_EMPTY}");
+        end else begin
+          log_req(LOG_BANK, req, "ACTIVATE ROW");
+        end
         
         bank.pending = 1;
         bank.state = OPEN;
@@ -195,21 +286,37 @@ task automatic command_bank(inout bank bank, inout mem_request req);
           if (bank.done < bank.next_act) begin
             bank.done = bank.next_act; // Need to wait for tRAS.
           end
+
+          assert(req.page_res == PAGE_TBD); // Does this hold?
+          if (req.page_res == PAGE_TBD) begin
+            req.page_res = PAGE_MISS;
+            log_req(LOG_PAGE, req, "PRECHARGE {PAGE_MISS}");
+          end else begin
+            log_req(LOG_BANK, req, "PRECHARGE");
+          end
         end
         
         else begin // PAGE HIT
           if (req.inp.access == READ || req.inp.access == FETCH) begin
             // RD  <bank group> <bank> <column> 
-            $display("%d RD %0d %0d %0d", cycles, req.grp, req.bank, req.col);
+            $display("%d RD %0d %0d %0d", cycles, req.grp, req.bnk, req.col);
           end else begin
-            $display("%d WR %0d %0d %0d", cycles, req.grp, req.bank, req.col);
+            $display("%d WR %0d %0d %0d", cycles, req.grp, req.bnk, req.col);
+          end
+
+          if (req.page_res == PAGE_TBD) begin
+            req.page_res = PAGE_HIT;
+            log_req(LOG_PAGE, req, "SCHEDULED RW {PAGE_HIT}");
+          end else begin
+            log_req(LOG_BANK, req, "SCHEDULED RW");
           end
           
           
           // Schedule a Read/Write event.
           rw.cycles = cycles + tCAS + tBURST;
           rw.bank_idx = req.bank_idx;
-          rw.ident = req.inp;
+          rw.req_id = req.id;
+          rw.addr_match = req.addr_match;
 
           bank.scheduled.push_back(rw);
           scheduled.push_back(rw);
@@ -238,7 +345,9 @@ task automatic offer_next_schedule();
 endtask
 
 // Try to schedule the request.
-task automatic schedule_request_try(input mem_request req);
+// Either sends the memory request or adds to the next queue to singal we need
+// to try again next cycle.
+task automatic try_request(inout mem_request req);
   begin
     // If we have sent a request this memory cycle. Try next cycle.
     if (dram_this_cycle == 1) begin
@@ -247,7 +356,7 @@ task automatic schedule_request_try(input mem_request req);
     end
     
     // Check if we can schedule this cycle. If not prep for next cycle.
-    if (cycles & 1 != 0) begin
+    if ((cycles & 1) > 0) begin
       next.push_back(cycles + 1); // Schedule to send memory next cycle.
       return;
     end
@@ -264,10 +373,13 @@ task automatic schedule_dram_fifo(); // Schedule First
     // Pick first request.
     if (queue.size() > 0) begin
       req = queue[0];
-      
+
+      // Since only a the top request is scheduled... No need to check
+      // addr_match.
+
       // If bank is not busy then schedule.
-      if (req.pending == 0 && banks[req.bank].pending == 0) begin
-        command_bank(banks[req.bank_idx], queue[0]); // May add to next
+      if (req.pending == 0 && banks[req.bank_idx].pending == 0) begin
+        try_request(queue[0]); // May add to next
       end
     end
   end
@@ -281,10 +393,22 @@ task automatic schedule_dram_ready();
     // Pick first request.
     for (int i = 0; i < queue.size(); ++i) begin
       req = queue[i];
+
+      // Check if this request will be completed by scheduled transactions.
+      // Since any matching will be to the same bank, no need to worry about
+      // conflicts of order. First transaction will always schedule first.
+      req_scheduled = 0;
+      for (int j = 0; j < scheduled.size(); ++j) begin
+        if (req.addr_match == scheduled[j].addr_match) begin
+          req_scheduled = 1;
+          break;
+        end
+      end
+      if (req_scheduled == 1) continue;
       
       // If req not pending and bank is not busy then schedule.
-      if (req.pending == 0 && banks[req.bank].pending == 0) begin
-        command_bank(banks[req.bank_idx], queue[i]); // May add to next
+      if (req.pending == 0 && banks[req.bank_idx].pending == 0) begin
+        try_request(queue[i]); // May add to next
         break;
       end
     end
@@ -311,6 +435,7 @@ task automatic advance_dram();
   bank_rw rw;
   mem_request req;
   bit req_matched = 0;
+  u64 addr_match;
   begin
     for (int i = 0; i < $size(banks); ++i) begin
       if (banks[i].pending == 1 && banks[i].done == cycles) begin
@@ -331,34 +456,63 @@ task automatic advance_dram();
       
       // Finish matching Request.
       for (int i = 0; i < queue.size(); ++i) begin
-        if (queue[i].inp.cycles == rw.ident.cycles
-            && queue[i].inp.access == rw.ident.access
-            && queue[i].inp.addr == rw.ident.addr) begin
+        //if (queue[i].inp.cycles == rw.ident.cycles
+            //&& queue[i].inp.access == rw.ident.access
+            //&& queue[i].inp.addr == rw.ident.addr) begin
+        if (queue[i].id == rw.req_id) begin
           req = queue[i];
-          assert (req.pending == 1) else $error("Finished request that is not pending");
+          assert (req.pending == 1) else $error("Scheduled request that is not pending");
           
           queue.delete(i);
           
           req.finished = cycles;
-          display_req(req, "FINISHED");
+          req.pending = 0;
+          log_req(LOG_BANK, req, "COMPLETED (scheduled)");
           req_matched = 1;
-          break;
+          addr_match = req.addr_match; // Get pattern for matching addresses.
+
+          // Check for any queued requests completed by proximity.
+          for (int j = 0; j < queue.size(); ++j) begin
+            req = queue[j];
+            // Matching addresses will have same row, bank, group, and column
+            // but different select bits.
+            if (req.addr_match == addr_match) begin
+              assert(req.pending == 0) else $error("Request should not have been started.");
+              req.finished = cycles;
+              log_req(LOG_BANK, req, "COMPLETED (satisfied)");
+
+              
+              // Remove from queue. Maintain index.
+              queue.delete(j); --j;
+            end
+          end
+
+          return;
         end
+        $error("Request not found in queue.");
+        $finish();
       end
       
-      assert (req_matched) else $error("Request not found.");
     end
   end
 endtask
 
 task automatic display_req(input mem_request req, input string state);
   begin
-    if (verbose > 0) begin
+    if (verbose < LOG_EXTRA)
       $display("%d  %8d  0x%8h %s", cycles, req.inp.access, req.inp.addr, state);
-    end
+    else
+      $display("%d  %8d  0x%8h (grp: %1d, bnk: %1d, row: %5d, col: %4d) %s", cycles, req.inp.access, req.inp.addr, req.grp, req.bnk, req.row, req.col, state);
   end
 endtask
 
+task automatic log_req(input e_log_level level, input mem_request req, input string state);
+  begin
+    if (verbose >= level) display_req(req, state);
+  end
+endtask
+
+// Update Queue. Depreciated after checkpoint 2.
 task automatic update_queue();
   begin
     for (int i = 0; i < queue.size(); ++i) begin
@@ -444,7 +598,7 @@ module tb();
         new_request(req, inp);
         req.queued = cycles;
         // req.done = cycles + 100; // Only for Checkpoint2.
-        display_req(req, "QUEUED");
+        log_req(LOG_QUEUED, req, "QUEUED");
         
         queue.push_back(req);
         inp_valid = 0;
