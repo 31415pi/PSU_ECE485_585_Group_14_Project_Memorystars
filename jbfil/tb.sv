@@ -81,6 +81,7 @@ bit inp_valid = 0;
 bit inp_finished = 0;
 req_input inp;
 bit inp_echo = 0;
+int verbose = 0;
 
 u64 cycles = 0; // Simulation cycles.
 bit dram_this_cycle = 0; // Set to mark a dram command has been sent this cycle.
@@ -102,6 +103,7 @@ task initialize();
     
     $value$plusargs("loop_limit=%d", loops_limit);
     $value$plusargs("inpfile=%s", inp_filename);
+    $value$plusargs("verbose=%d", verbose);
     
     
     fd = $fopen(inp_filename, "r");
@@ -338,7 +340,7 @@ task automatic advance_dram();
           queue.delete(i);
           
           req.finished = cycles;
-          //display_req(req, "FINISHED");
+          display_req(req, "FINISHED");
           req_matched = 1;
           break;
         end
@@ -351,7 +353,9 @@ endtask
 
 task automatic display_req(input mem_request req, input string state);
   begin
-    $display("%d  %8d  0x%8h %s", cycles, req.inp.access, req.inp.addr, state);
+    if (verbose > 0) begin
+      $display("%d  %8d  0x%8h %s", cycles, req.inp.access, req.inp.addr, state);
+    end
   end
 endtask
 
@@ -440,7 +444,7 @@ module tb();
         new_request(req, inp);
         req.queued = cycles;
         // req.done = cycles + 100; // Only for Checkpoint2.
-        // display_req(req, "START"); // Only for Checkpoint2.
+        display_req(req, "QUEUED");
         
         queue.push_back(req);
         inp_valid = 0;
