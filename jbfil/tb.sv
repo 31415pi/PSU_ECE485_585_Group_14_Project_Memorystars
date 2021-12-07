@@ -18,25 +18,25 @@ parameter u64 bits_grp =  2;
 parameter u64 bits_bnk =  2;
 parameter u64 bits_sel =  3; // Bytes Select.
 
-typedef enum { // Define Order from LSB.
-  SEL, COL, ROW, BNK, GRP
-//SEL, GRP, BNK, COL, ROW
-//SEL, COL, GRP, BNK, ROW // probably a better address mapping.
+typedef enum {
+//MSB <-------------> LSB
+  ROW, BNK, COL, GRP, SEL // Likely best address mapping.
+  // We utilize all of the bank groups. Consecutive reads access different
+  // groups. Since no time penalty for consecutive bank access we are not hurt
+  // there.
+
+  //ROW, BNK, GRP, COL, SEL // Issue long reads since group is constant almost
+  //every time.
+
+  //GRP, BNK, ROW, COL, SEL // Original Mapping. Utilizes only first bank for
+  //all spatial accesses.
 } e_addr_mapping;
 
-/*
-parameter u64 shift_row = 14;
-parameter u64 shift_col =  3;
-parameter u64 shift_grp = 31;
-parameter u64 shift_bnk = 29;
-parameter u64 shift_sel =  0;
-*/
-
-parameter u64 shift_sel =  0;
-parameter u64 shift_grp =  bits_sel;
-parameter u64 shift_col =  bits_sel + bits_grp;
-parameter u64 shift_bnk =  bits_sel + bits_grp + bits_col;
-parameter u64 shift_row =  bits_sel + bits_grp + bits_col + bits_bnk;
+parameter u64 shift_sel =  (SEL < SEL) * bits_sel + (SEL < GRP) * bits_grp + (SEL < BNK) * bits_bnk + (SEL < ROW) * bits_row + (SEL < COL) * bits_col;
+parameter u64 shift_grp =  (GRP < SEL) * bits_sel + (GRP < GRP) * bits_grp + (GRP < BNK) * bits_bnk + (GRP < ROW) * bits_row + (GRP < COL) * bits_col;
+parameter u64 shift_bnk =  (BNK < SEL) * bits_sel + (BNK < GRP) * bits_grp + (BNK < BNK) * bits_bnk + (BNK < ROW) * bits_row + (BNK < COL) * bits_col;
+parameter u64 shift_row =  (ROW < SEL) * bits_sel + (ROW < GRP) * bits_grp + (ROW < BNK) * bits_bnk + (ROW < ROW) * bits_row + (ROW < COL) * bits_col;
+parameter u64 shift_col =  (COL < SEL) * bits_sel + (COL < GRP) * bits_grp + (COL < BNK) * bits_bnk + (COL < ROW) * bits_row + (COL < COL) * bits_col;
 
 parameter u64 mask_adr = ((1 << bits_adr) - 1);
 parameter u64 mask_row = ((1 << bits_row) - 1) << shift_row;
