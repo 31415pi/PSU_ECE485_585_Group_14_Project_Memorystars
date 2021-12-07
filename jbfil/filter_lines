@@ -24,3 +24,4 @@ Reading pref.tcl
 #  quit
 # End time: .*, Elapsed time: .*
 # Errors: .*, Warnings: .*
+# ** Note: (vsim-.*
