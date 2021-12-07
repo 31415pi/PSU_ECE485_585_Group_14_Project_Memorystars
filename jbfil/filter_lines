@@ -5,6 +5,8 @@ Reading pref.tcl
 # vsim -c tb -do "run -all; quit".*
 # Start time: .*
 # \*\* Note: (vsim-8009) Loading existing optimized design _opt
+# \*\* Note: (vsim-3813) Design is being optimized due to module recompilation...
+# \*\* Note: (vsim-.*).*
 # //  Questa Sim-64
 # //  Version 2019.2_1 linux_x86_64 May 13 2019
 # //
@@ -24,4 +26,3 @@ Reading pref.tcl
 #  quit
 # End time: .*, Elapsed time: .*
 # Errors: .*, Warnings: .*
-# ** Note: (vsim-.*
