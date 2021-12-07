@@ -286,6 +286,9 @@ task automatic command_bank(inout bank bank, inout mem_request req);
         // TODO: transition to EMPTY? What is the timeout for this?
         if (req.row != bank.row) begin // PAGE MISS
           assert (bank.scheduled.size() == 0) else $error("Pending Data. Can't Precharge.");
+
+          // PRE <bank group> <bank>
+          $display("%d PRE %0d %0d", cycles, req.grp, req.bnk);
           
           bank.pending = 1;
           bank.state = CHARGED;
