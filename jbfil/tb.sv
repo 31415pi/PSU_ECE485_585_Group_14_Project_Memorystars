@@ -267,7 +267,8 @@ task automatic command_bank(inout bank bank, inout mem_request req);
       end
       
       CHARGED: begin // BANK Charged
-        $display("%d ACT %0d %0d", cycles, req.grp, req.bnk);
+        // ACT <bank group> <bank> <row>
+        $display("%d ACT %0d %0d %0d", cycles, req.grp, req.bnk, req.row);
         if (req.page_res == PAGE_TBD) begin
           req.page_res = PAGE_EMPTY;
           log_req(LOG_PAGE, req, "ACTIVATE ROW {PAGE_EMPTY}");
@@ -311,6 +312,7 @@ task automatic command_bank(inout bank bank, inout mem_request req);
             // RD  <bank group> <bank> <column> 
             $display("%d RD %0d %0d %0d", cycles, req.grp, req.bnk, req.col);
           end else begin
+            // WR  <bank group> <bank> <column>
             $display("%d WR %0d %0d %0d", cycles, req.grp, req.bnk, req.col);
           end
 
