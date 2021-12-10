@@ -1,0 +1,5 @@
+vsim -c tb -do "run -all; quit" +inpfile="tests_demo/t8.trace" | grep -v -x -f filter | sed 's/^# //'
+                   0 ACT 0 0 0
+                  48 RD 0 0 0
+                 104 RD 0 0 1
+make[1]: Leaving directory `/u/bfilipc2/ece585/dram-scheduler/jbfil'
