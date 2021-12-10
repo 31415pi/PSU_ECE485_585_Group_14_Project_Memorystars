@@ -621,8 +621,8 @@ module tb();
       
       // Try to schedule request. If a device wants to schedule but is off-cycle then
       // it will add the next memory_cycle to the next options.
-      schedule_dram_fifo();
-      //schedule_dram_ready();
+      //schedule_dram_fifo();
+      schedule_dram_ready();
       
       offer_next_input();
       //offer_next_queue(); // Only for Checkpoint2.
