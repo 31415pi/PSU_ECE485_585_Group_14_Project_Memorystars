@@ -31,10 +31,10 @@ const int sel_offs =  3; // offset by 3 bits.
 // bank group : bank : row : column : fifo
 // 2^2          :2^2   :2^15 : 2^11 :2^3
 const int sel_shift =  0;
-const int col_shift =  sel_bits;
-const int row_shift =  sel_bits + col_bits;
-const int bnk_shift =  sel_bits + col_bits + row_bits;
-const int grp_shift =  sel_bits + col_bits + row_bits + bnk_bits;
+const int grp_shift =  sel_bits;
+const int col_shift =  sel_bits + grp_shift;
+const int bnk_shift =  sel_bits + grp_shift + col_shift;
+const int row_shift =  sel_bits + grp_shift + col_shift + bnk_bits;
 
 const uint64_t addr_mask = ((1ull << (row_bits + col_bits + grp_bits + bnk_bits + sel_bits)) - 1);
 const uint64_t row_mask  = ((1ull << row_bits) - 1) << row_shift;
