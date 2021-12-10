@@ -11,12 +11,12 @@ typedef int unsigned u32;
 parameter max_u64 = 64'hFFFF_FFFF_FFFF_FFFF;
 
 // Address to Memory Organization
-parameter u64 bits_adr = 33;
+parameter u64 bits_adr = 36;
 parameter u64 bits_row = 15;
 parameter u64 bits_col = 11;
 parameter u64 bits_grp =  2;
 parameter u64 bits_bnk =  2;
-parameter u64 bits_sel =  3; // Bytes Select.
+parameter u64 bits_sel =  6; // Bytes Select.
 
 typedef enum {
 //MSB <-------------> LSB
