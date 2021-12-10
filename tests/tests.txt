@@ -1,0 +1,81 @@
+
+# Test   1 : Check Each Position
+       0  0  0x000020000  # row:     1 col:    0 bnk: 0 grp: 0 fifo: 0
+       0  0  0x000000040  # row:     0 col:    1 bnk: 0 grp: 0 fifo: 0
+       0  0  0x000000000  # row:     0 col:    0 bnk: 1 grp: 0 fifo: 0
+       0  0  0x000000000  # row:     0 col:    0 bnk: 0 grp: 1 fifo: 0
+       0  0  0x000000008  # row:     0 col:    0 bnk: 0 grp: 0 fifo: 1
+
+# Test   2 : EMPTY single
+       0  0  0x000020000  # row:     1 col:    0 bnk: 0 grp: 0 fifo: 0
+       9  0  0x000020000  # row:     1 col:    0 bnk: 1 grp: 0 fifo: 0
+
+# Test   3 : HIT single
+       0  0  0x000020040  # row:     1 col:    1 bnk: 1 grp: 1 fifo: 0
+       9  0  0x000020080  # row:     1 col:    2 bnk: 1 grp: 1 fifo: 0
+
+# Test   4 : MISS single
+       0  0  0x000020040  # row:     1 col:    1 bnk: 1 grp: 1 fifo: 0
+       9  0  0x000040040  # row:     2 col:    1 bnk: 1 grp: 1 fifo: 0
+
+# Test   5 : Bank group switch on a page hit
+       0  0  0x000020000  # row:     1 col:    0 bnk: 0 grp: 0 fifo: 0
+       1  0  0x000020000  # row:     1 col:    0 bnk: 0 grp: 0 fifo: 0
+
+# Test   6 : Consecutive banks READ
+       0  0  0x000000000  # row:     0 col:    0 bnk: 0 grp: 0 fifo: 0
+       1  0  0x000000000  # row:     0 col:    0 bnk: 1 grp: 0 fifo: 0
+       2  0  0x000000000  # row:     0 col:    0 bnk: 2 grp: 0 fifo: 0
+       3  0  0x000000000  # row:     0 col:    0 bnk: 3 grp: 0 fifo: 0
+       4  0  0x000000000  # row:     0 col:    0 bnk: 0 grp: 1 fifo: 0
+       5  0  0x000000000  # row:     0 col:    0 bnk: 1 grp: 1 fifo: 0
+       6  0  0x000000000  # row:     0 col:    0 bnk: 2 grp: 1 fifo: 0
+       7  0  0x000000000  # row:     0 col:    0 bnk: 3 grp: 1 fifo: 0
+       8  0  0x000000000  # row:     0 col:    0 bnk: 0 grp: 2 fifo: 0
+       9  0  0x000000000  # row:     0 col:    0 bnk: 1 grp: 2 fifo: 0
+      10  0  0x000000000  # row:     0 col:    0 bnk: 2 grp: 2 fifo: 0
+      11  0  0x000000000  # row:     0 col:    0 bnk: 3 grp: 2 fifo: 0
+      12  0  0x000000000  # row:     0 col:    0 bnk: 0 grp: 3 fifo: 0
+      13  0  0x000000000  # row:     0 col:    0 bnk: 1 grp: 3 fifo: 0
+      14  0  0x000000000  # row:     0 col:    0 bnk: 2 grp: 3 fifo: 0
+      15  0  0x000000000  # row:     0 col:    0 bnk: 3 grp: 3 fifo: 0
+
+# Test   7 : Consecutive columns READ. Same bank/grp.
+       0  0  0x000000000  # row:     0 col:    0 bnk: 0 grp: 0 fifo: 0
+       1  0  0x000000040  # row:     0 col:    1 bnk: 0 grp: 0 fifo: 0
+       2  0  0x000000080  # row:     0 col:    2 bnk: 0 grp: 0 fifo: 0
+       3  0  0x0000000C0  # row:     0 col:    3 bnk: 0 grp: 0 fifo: 0
+       4  0  0x000000100  # row:     0 col:    4 bnk: 0 grp: 0 fifo: 0
+       5  0  0x000000140  # row:     0 col:    5 bnk: 0 grp: 0 fifo: 0
+       6  0  0x000000180  # row:     0 col:    6 bnk: 0 grp: 0 fifo: 0
+       7  0  0x0000001C0  # row:     0 col:    7 bnk: 0 grp: 0 fifo: 0
+       8  0  0x000000200  # row:     0 col:    8 bnk: 0 grp: 0 fifo: 0
+       9  0  0x000000240  # row:     0 col:    9 bnk: 0 grp: 0 fifo: 0
+      10  0  0x000000280  # row:     0 col:   10 bnk: 0 grp: 0 fifo: 0
+      11  0  0x0000002C0  # row:     0 col:   11 bnk: 0 grp: 0 fifo: 0
+      12  0  0x000000300  # row:     0 col:   12 bnk: 0 grp: 0 fifo: 0
+      13  0  0x000000340  # row:     0 col:   13 bnk: 0 grp: 0 fifo: 0
+      14  0  0x000000380  # row:     0 col:   14 bnk: 0 grp: 0 fifo: 0
+      15  0  0x0000003C0  # row:     0 col:   15 bnk: 0 grp: 0 fifo: 0
+
+# Test   8 : Bank switch on a page hit
+       0  0  0x000000000  # row:     0 col:    0 bnk: 0 grp: 0 fifo: 0
+       1  0  0x000000000  # row:     0 col:    0 bnk: 0 grp: 1 fifo: 0
+
+# Test   9 : Bank group switch followed by a bank switch on a page hit
+       0  0  0x000000000  # row:     0 col:    0 bnk: 0 grp: 0 fifo: 0
+       1  0  0x000000000  # row:     0 col:    0 bnk: 1 grp: 0 fifo: 0
+       2  0  0x000000000  # row:     0 col:    0 bnk: 1 grp: 1 fifo: 0
+
+# Test  10 : Bank group switch on a page empty
+       0  0  0x000000000  # row:     0 col:    0 bnk: 0 grp: 0 fifo: 0
+       1  0  0x000000000  # row:     0 col:    0 bnk: 1 grp: 0 fifo: 0
+
+# Test  11 : Bank switch on a page empty
+       0  0  0x000000000  # row:     0 col:    0 bnk: 0 grp: 0 fifo: 0
+       1  0  0x000000000  # row:     0 col:    0 bnk: 0 grp: 1 fifo: 0
+
+# Test  12 : Bank group switch followed by a bank switch on a page empty
+       0  0  0x000000000  # row:     0 col:    0 bnk: 0 grp: 0 fifo: 0
+       1  0  0x000000000  # row:     0 col:    0 bnk: 1 grp: 0 fifo: 0
+       2  0  0x000000000  # row:     0 col:    0 bnk: 1 grp: 1 fifo: 0
